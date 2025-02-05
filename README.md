@@ -16,13 +16,13 @@ Vide tutoriais do PI.
 
 ## Integrantes: <a href="">Caroliny Rossi Bittencourt</a>, <a href="">Duda Lucena Miguel</a>, <a href="">Rafael Alves dos Santos Guimarães</a>, <a href="">Rafael Moraes Marques</a>
 
-## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Dr. Victor Von Doom</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Saitama</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Strange</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Yoda</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Gero</a>
+## Professores Orientadores: <a href="">Marco Aurelio Lima Barbosa</a>, <a href="">Katia Milani Lara Bossi</a>,<a href="">Vinicius Heltai Pacheco</a>, <a href="">Victor Bruno Alexander Rosetti de Quiroz</a>
 
 ## Descrição
 
 <p align="center">
 <img src="https://pix4free.org/assets/library/2021-01-20/originals/game.jpg" alt="NOME DO JOGO" border="0">
-  Game by <a href="http://www.nyphotographic.com/">Nick Youngson</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> <a href="http://pix4free.org/">Pix4free</a>
+  Game by <a href="">CDRR</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> 
 </p>
 
 
