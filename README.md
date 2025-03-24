@@ -20,12 +20,15 @@
 </p>
 
 
-De um a dois parágrafos sobre o que é seu projeto e o que ele faz.
-<br><br>
-Meu projeto ajuda estudantes FECAP a configurarem seus githubs.
-<br><br>
-May the force be with you!
-<br><br>
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+A U-Monitoring é uma função para ser implementada no aplicativo da uber que tem como objetivo principal aumentar a segurança dos motoristas da plataforma Uber por meio da implementação de uma funcionalidade baseada em reconhecimento de voz. A ideia central é permitir que o motorista cadastre previamente uma frase de segurança personalizada. Em situações de risco ou coação, ao pronunciar discretamente essa frase durante uma corrida, o sistema será acionado automaticamente, iniciando um protocolo de segurança que inclui o monitoramento em tempo real da viagem, alerta para contatos de emergência e coleta de dados relevantes como localização, áudio ambiente e movimentações anormais do veículo.
+</p>
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Essa abordagem busca oferecer uma camada adicional de proteção sem interferir na experiência do usuário, garantindo que o acionamento do protocolo seja feito de forma discreta e eficaz. Além de reforçar a segurança dos motoristas, a funcionalidade também contribui para a construção de um ambiente mais confiável e responsável dentro da plataforma de transporte, alinhando-se às crescentes demandas por soluções tecnológicas voltadas à integridade física e emocional dos trabalhadores de aplicativos.
+</p>
+
 
 ## <img src="https://img.icons8.com/?size=100&id=zfHRZ6i1Wg0U&format=png&color=000000" width="20" height="20"/> PROTÓTIPO NO FIGMA 
  <a href = "https://www.figma.com/design/mijSynpvCi4B9wWXdzbpbm/Prototipo-U-Monitoring?t=q6YFba43GuaLq60R-1">Projeto</a>
@@ -73,20 +76,6 @@ Execute o APK e siga as instruções de seu telefone.
 ```sh
 Coloque código do prompt de comnando se for necessário
 ```
-
-<b>Windows:</b>
-
-Não há instalação! Apenas executável!
-Encontre o JOGO.exe na pasta executáveis e execute-o como qualquer outro programa.
-
-```sh
-Coloque código do prompt de comnando se for necessário
-```
-
-<b>HTML:</b>
-
-Não há instalação!
-Encontre o index.html na pasta executáveis e execute-o como uma página WEB (através de algum browser).
 
 ## 💻 Configuração para Desenvolvimento
 
