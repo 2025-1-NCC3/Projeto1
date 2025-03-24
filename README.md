@@ -27,6 +27,11 @@ Meu projeto ajuda estudantes FECAP a configurarem seus githubs.
 May the force be with you!
 <br><br>
 
+## <img src="https://img.icons8.com/?size=100&id=zfHRZ6i1Wg0U&format=png&color=000000" width="20" height="20"/> PROTÓTIPO NO FIGMA 
+ <a href = "https://www.figma.com/design/mijSynpvCi4B9wWXdzbpbm/Prototipo-U-Monitoring?t=q6YFba43GuaLq60R-1">Projeto</a>
+ <br>
+ <a href = "https://www.figma.com/proto/mijSynpvCi4B9wWXdzbpbm/Prototipo-U-Monitoring?node-id=33-115&t=lVaLmucY3r3yoEI6-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=45%3A206&show-proto-sidebar=1">Navegavel</a>
+
 ## 🛠 Estrutura de pastas
 
 -Raiz<br>
