@@ -1,5 +1,7 @@
 package br.com.fecapccp.u_monitoring;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +10,8 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -18,13 +22,15 @@ public class VoiceRecognitionService extends Service {
     private Intent recognizerIntent;
 
     private final String[] frasesDeSeguranca = {
-            "banana azul", "nave espacial", "emergência agora"
-
+            "banana azul",
+            "nave espacial",
+            "emergência agora"
     };
 
     @Override
     public void onCreate() {
         super.onCreate();
+        iniciarComoServicoEmPrimeiroPlano();
         iniciarReconhecimento();
     }
 
@@ -72,6 +78,35 @@ public class VoiceRecognitionService extends Service {
 
         speechRecognizer.startListening(recognizerIntent);
     }
+
+    private void iniciarComoServicoEmPrimeiroPlano() {
+        String canalId = "monitoramento_de_voz";
+        String canalNome = "Monitoramento de voz";
+
+        // Cria o canal de notificação (Android 8+)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel canal = new NotificationChannel(
+                    canalId,
+                    canalNome,
+                    NotificationManager.IMPORTANCE_LOW
+            );
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager != null) {
+                manager.createNotificationChannel(canal);
+            }
+        }
+
+        // Cria a notificação
+        NotificationCompat.Builder notificacao = new NotificationCompat.Builder(this, canalId)
+                .setContentTitle("Monitoramento de Segurança Ativo")
+                .setContentText("Escutando por frases de segurança...")
+                .setSmallIcon(R.mipmap.ic_launcher) // substitua por um ícone do seu app
+                .setPriority(NotificationCompat.PRIORITY_LOW);
+
+        // Inicia o serviço como foreground
+        startForeground(1, notificacao.build());
+    }
+
 
     private void reiniciarReconhecimento() {
         if (speechRecognizer != null) {
