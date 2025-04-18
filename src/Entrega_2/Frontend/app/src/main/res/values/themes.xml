@@ -1,9 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.UMonitoring" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.UMonitoring" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Aqui você customiza seu tema principal -->
+
+        <!-- Evita que Material3 force estilos de botão -->
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="materialButtonStyle">@style/Widget.AppCompat.Button</item>
     </style>
 
-    <style name="Theme.UMonitoring" parent="Base.Theme.UMonitoring" />
 </resources>

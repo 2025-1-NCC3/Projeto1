@@ -117,7 +117,23 @@ public class VoiceRecognitionService extends Service {
 
     private void acionarProtocoloDeSeguranca() {
         Log.d("SEGURANÇA", "🚨 Protocolo de segurança ativado!");
+
+        // Exibe um Toast para o usuário
+        android.os.Handler handler = new android.os.Handler(getMainLooper());
+        handler.post(() -> {
+            android.widget.Toast.makeText(getApplicationContext(),
+                    "🚨 Protocolo de segurança ativado!", android.widget.Toast.LENGTH_LONG).show();
+        });
+
+        // Para o reconhecimento de voz
+        if (speechRecognizer != null) {
+            speechRecognizer.stopListening();
+            speechRecognizer.destroy();
+            speechRecognizer = null;
+        }
     }
+
+
 
     @Override
     public IBinder onBind(Intent intent) {
