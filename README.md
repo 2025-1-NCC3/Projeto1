@@ -15,7 +15,7 @@
 ## Descrição
 
 <p align="center">
-<img src="https://pix4free.org/assets/library/2021-01-20/originals/game.jpg" alt="NOME DO JOGO" border="0">
+<img src="https://github.com/2025-1-NCC3/Projeto1/blob/main/imagens/banner.png?raw=true" alt="NOME DO JOGO" border="0">
   app by <a href="">CDRR</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 4.0</a> 
 </p>
 
