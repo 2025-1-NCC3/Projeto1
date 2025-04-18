@@ -166,14 +166,6 @@
                         android:textSize="24sp" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="até o destino de fulano"
-                    android:textColor="@color/TextColorWHite" />
-
             </LinearLayout>
 
             <ImageView
@@ -200,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="protocolo de segura: ativo"
-                android:textColor="@color/TextColorWHite" />
+                android:textColor="#00FF0B" />
 
             <Button
                 android:id="@+id/btnEncerrarCorrida"

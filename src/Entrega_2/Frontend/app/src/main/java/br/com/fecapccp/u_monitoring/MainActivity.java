@@ -89,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
         rodapeCorridaAtiva = findViewById(R.id.rodapeCorridaAtiva);
         tempoRestante = findViewById(R.id.tempoRestante);
         distanciaRestante = findViewById(R.id.distanciaRestante);
-        textView7_destino = findViewById(R.id.textView7);
-
+        
         btnSeguranca = findViewById(R.id.btnSeguranca);
         btnConfiguracao = findViewById(R.id.btnConfiguracao);
 
