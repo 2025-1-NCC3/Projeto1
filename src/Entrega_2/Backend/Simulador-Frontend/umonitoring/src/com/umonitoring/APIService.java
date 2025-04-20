@@ -14,7 +14,8 @@ import org.json.JSONObject;
 
 public class APIService {
 
-    private static final String BASE_URL = "http://localhost:3000";
+    //private static final String BASE_URL = "http://localhost:3000";
+    private static final String BASE_URL = "https://9dc78641-1bd1-45c8-90c2-5ef78eb75b05-00-1liaz9tknfzel.spock.replit.dev/";
 
     // =================== CRUD MOTORISTA ===================
 
