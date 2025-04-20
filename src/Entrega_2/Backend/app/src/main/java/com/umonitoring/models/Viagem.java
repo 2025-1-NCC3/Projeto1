@@ -1,9 +1,13 @@
 package com.umonitoring.models;
 
 import com.umonitoring.utils.Criptografia;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import com.umonitoring.api.ViagemAPI;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Viagem {
@@ -92,25 +96,70 @@ public class Viagem {
     }
 
     public void criarViagem() {
+        agendar(); // já implementado
     }
+
 
     public List<Viagem> listarViagensPorMotorista(Motorista motorista) {
-        return null;
+        String resposta = ViagemAPI.listarPorMotorista(motorista.getId());
+        List<Viagem> lista = new ArrayList<>();
+
+        try {
+            JSONArray array = new JSONArray(resposta);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                Viagem v = construirViagem(obj);
+                lista.add(v);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
     }
+
 
     public List<Viagem> listarViagensPorPassageiro(Passageiro passageiro) {
-        return null;
+        String resposta = ViagemAPI.listarPorPassageiro(passageiro.getId());
+        List<Viagem> lista = new ArrayList<>();
+
+        try {
+            JSONArray array = new JSONArray(resposta);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                Viagem v = construirViagem(obj);
+                lista.add(v);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
     }
+
 
     public Viagem buscarViagemPorId(int id) {
-        return null;
+        String resposta = ViagemAPI.buscarPorId(id);
+
+        try {
+            JSONObject obj = new JSONObject(resposta);
+            return construirViagem(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
 
     public void atualizarViagem(int id, Viagem viagem) {
+        viagem.atualizar(id);
     }
 
+
     public void deletarViagem(int id) {
+        cancelar(id);
     }
+
 
     public String agendar() {
         try {
@@ -138,15 +187,32 @@ public class Viagem {
         }
     }
 
+    private Viagem construirViagem(JSONObject obj) throws Exception {
+        Motorista motorista = Motorista.buscarMotoristaPorId(obj.getInt("motorista_id"));
+        Passageiro passageiro = Passageiro.buscarPassageiroPorId(obj.getInt("passageiro_id"));
+
+        return new Viagem(
+                obj.getInt("id"),
+                obj.getString("endereco_de_partida"),
+                obj.getString("endereco_de_chegada"),
+                obj.getString("data_hora_de_partida"),
+                obj.getString("data_hora_de_chegada"),
+                obj.getString("status"),
+                motorista,
+                passageiro
+        );
+    }
+
     private JSONObject montarJson() throws Exception {
         JSONObject json = new JSONObject();
-        json.put("endereco_de_partida", getEnderecoDePartida());
-        json.put("endereco_de_chegada", getEnderecoDeChegada());
-        json.put("data_hora_de_partida", getDataHoraDePartida());
-        json.put("data_hora_de_chegada", getDataHoraDeChegada());
-        json.put("status", getStatus());
-        json.put("motorista_id", getMotorista().getId());
-        json.put("passageiro_id", getPassageiro().getId());
+        json.put("endereco_de_partida", enderecoDePartida);
+        json.put("endereco_de_chegada", enderecoDeChegada);
+        json.put("data_hora_de_partida", dataHoraDePartida);
+        json.put("data_hora_de_chegada", dataHoraDeChegada);
+        json.put("status", status);
+        json.put("motorista_id", motorista.getId());
+        json.put("passageiro_id", passageiro.getId());
         return json;
     }
+
 }
