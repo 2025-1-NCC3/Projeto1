@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="50dp"
+    android:gravity="center"
+    tools:context=".activities.MainActivity">
+
+    <Button
+        android:id="@+id/btnTesteServidor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conectar com o Servidor" />
+
+    <Button
+        android:id="@+id/btnListarMotoristas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Listar Motoristas" />
+
+    <Button
+        android:id="@+id/btnListarPassageiros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Listar Passageiros" />
+
+    <Button
+        android:id="@+id/btnListarViagens"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Listar Viagens" />
+
+</LinearLayout>
