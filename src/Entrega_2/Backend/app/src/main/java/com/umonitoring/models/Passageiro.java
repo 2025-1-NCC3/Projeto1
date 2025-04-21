@@ -20,22 +20,48 @@ public class Passageiro extends Usuario {
         salvar();
     }
 
+    public static Passageiro buscarPassageiroPorId(int id) {
+        String resposta = PassageiroAPI.buscarPorId(id);
+
+        try {
+            JSONObject obj = new JSONObject(resposta);
+            JSONObject json = obj.getJSONObject("passageiro");
+
+            return new Passageiro(
+                    json.getInt("id"),
+                    Criptografia.descriptografar(json.getString("nome")),
+                    Criptografia.descriptografar(json.getString("sobrenome")),
+                    Criptografia.descriptografar(json.getString("telefone")),
+                    Criptografia.descriptografar(json.getString("email")),
+                    Criptografia.descriptografar(json.getString("senha"))
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
     public List<Passageiro> listarPassageiros() {
-        String resposta = PassageiroAPI.listarTodos(); // precisa estar implementado
+        String resposta = PassageiroAPI.listarTodos();
         List<Passageiro> lista = new ArrayList<>();
 
         try {
-            JSONArray array = new JSONArray(resposta);
+            JSONObject obj = new JSONObject(resposta);
+            JSONArray array = obj.getJSONArray("passageiro");
+
             for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
+                JSONObject json = array.getJSONObject(i);
 
                 Passageiro p = new Passageiro(
-                        obj.getInt("id"),
-                        obj.getString("nome"),
-                        obj.getString("sobrenome"),
-                        obj.getString("telefone"),
-                        obj.getString("email"),
-                        obj.getString("senha")
+                        json.getInt("id"),
+                        Criptografia.descriptografar(json.getString("nome")),
+                        Criptografia.descriptografar(json.getString("sobrenome")),
+                        Criptografia.descriptografar(json.getString("telefone")),
+                        Criptografia.descriptografar(json.getString("email")),
+                        Criptografia.descriptografar(json.getString("senha"))
                 );
 
                 lista.add(p);
@@ -47,24 +73,8 @@ public class Passageiro extends Usuario {
         return lista;
     }
 
-    public static Passageiro buscarPassageiroPorId(int id) {
-        String resposta = PassageiroAPI.buscarPorId(id);
 
-        try {
-            JSONObject obj = new JSONObject(resposta);
-            return new Passageiro(
-                    obj.getInt("id"),
-                    obj.getString("nome"),
-                    obj.getString("sobrenome"),
-                    obj.getString("telefone"),
-                    obj.getString("email"),
-                    obj.getString("senha")
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 
     public void atualizarPassageiro(int id, Passageiro passageiro) {
         passageiro.atualizar(id);

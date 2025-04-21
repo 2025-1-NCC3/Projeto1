@@ -17,21 +17,21 @@
         android:text="Conectar com o Servidor" />
 
     <Button
-        android:id="@+id/btnTesteMotoristaAPI"
+        android:id="@+id/btnListarMotoristas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="API Motorista" />
+        android:text="Listar Motoristas" />
 
     <Button
-        android:id="@+id/btnTestePasageiroAPI"
+        android:id="@+id/btnListarPassageiros"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="API Passageiro" />
+        android:text="Listar Passageiros" />
 
     <Button
-        android:id="@+id/btnTesteViagemAPI"
+        android:id="@+id/btnListarViagens"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="API Viagem" />
+        android:text="Listar Viagens" />
 
 </LinearLayout>

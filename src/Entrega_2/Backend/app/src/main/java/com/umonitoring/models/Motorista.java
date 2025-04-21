@@ -1,5 +1,7 @@
 package com.umonitoring.models;
 
+import android.util.Log;
+
 import com.umonitoring.utils.Criptografia;
 
 import java.util.ArrayList;
@@ -85,59 +87,71 @@ public class Motorista extends Usuario {
         List<Motorista> lista = new ArrayList<>();
 
         try {
-            JSONArray array = new JSONArray(resposta);
+            JSONObject obj = new JSONObject(resposta); // resposta = { "motoristas": [...] }
+            JSONArray array = obj.getJSONArray("motoristas");
+
             for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
+                JSONObject json = array.getJSONObject(i);
 
                 Motorista m = new Motorista(
-                        obj.getInt("id"),
-                        obj.getString("nome"),
-                        obj.getString("sobrenome"),
-                        obj.getString("telefone"),
-                        obj.getString("email"),
-                        obj.getString("senha"),
-                        obj.getString("modelo_do_carro"),
-                        obj.getString("placa_do_carro"),
-                        obj.getString("disponibilidade"),
-                        obj.getString("status_protocolo"),
-                        obj.getString("frase_de_seguranca_1"),
-                        obj.getString("frase_de_seguranca_2"),
-                        obj.getString("frase_de_seguranca_3")
+                        json.getInt("id"),
+                        Criptografia.descriptografar(json.getString("nome")),
+                        Criptografia.descriptografar(json.getString("sobrenome")),
+                        Criptografia.descriptografar(json.getString("telefone")),
+                        Criptografia.descriptografar(json.getString("email")),
+                        Criptografia.descriptografar(json.getString("senha")),
+                        Criptografia.descriptografar(json.getString("modelo_do_carro")),
+                        Criptografia.descriptografar(json.getString("placa_do_carro")),
+                        Criptografia.descriptografar(json.getString("disponibilidade")),
+                        Criptografia.descriptografar(json.getString("status_protocolo")),
+                        Criptografia.descriptografar(json.getString("frase_de_seguranca_1")),
+                        Criptografia.descriptografar(json.getString("frase_de_seguranca_2")),
+                        Criptografia.descriptografar(json.getString("frase_de_seguranca_3"))
                 );
+
                 lista.add(m);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e("ERRO_LISTAR", "Erro ao processar JSON de motoristas: " + e.getMessage());
         }
 
         return lista;
     }
+
 
     public static Motorista buscarMotoristaPorId(int id) {
         String resposta = MotoristaAPI.buscarPorId(id);
 
         try {
             JSONObject obj = new JSONObject(resposta);
+            JSONObject json = obj.getJSONObject("motoristas"); // <- nome correto da chave
+
             return new Motorista(
-                    obj.getInt("id"),
-                    obj.getString("nome"),
-                    obj.getString("sobrenome"),
-                    obj.getString("telefone"),
-                    obj.getString("email"),
-                    obj.getString("senha"),
-                    obj.getString("modelo_do_carro"),
-                    obj.getString("placa_do_carro"),
-                    obj.getString("disponibilidade"),
-                    obj.getString("status_protocolo"),
-                    obj.getString("frase_de_seguranca_1"),
-                    obj.getString("frase_de_seguranca_2"),
-                    obj.getString("frase_de_seguranca_3")
+                    json.getInt("id"),
+                    Criptografia.descriptografar(json.getString("nome")),
+                    Criptografia.descriptografar(json.getString("sobrenome")),
+                    Criptografia.descriptografar(json.getString("telefone")),
+                    Criptografia.descriptografar(json.getString("email")),
+                    Criptografia.descriptografar(json.getString("senha")),
+                    Criptografia.descriptografar(json.getString("modelo_do_carro")),
+                    Criptografia.descriptografar(json.getString("placa_do_carro")),
+                    Criptografia.descriptografar(json.getString("disponibilidade")),
+                    Criptografia.descriptografar(json.getString("status_protocolo")),
+                    Criptografia.descriptografar(json.getString("frase_de_seguranca_1")),
+                    Criptografia.descriptografar(json.getString("frase_de_seguranca_2")),
+                    Criptografia.descriptografar(json.getString("frase_de_seguranca_3"))
             );
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
+
+
+
 
     public void atualizarMotorista(int id, Motorista motorista) {
         motorista.atualizar(id);

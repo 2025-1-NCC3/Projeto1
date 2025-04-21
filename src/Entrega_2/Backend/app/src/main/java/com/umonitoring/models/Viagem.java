@@ -99,6 +99,27 @@ public class Viagem {
         agendar(); // já implementado
     }
 
+    public List<Viagem> listarTodasAsViagens() {
+        String resposta = ViagemAPI.listarTodas();
+        List<Viagem> lista = new ArrayList<>();
+
+        try {
+            JSONObject obj = new JSONObject(resposta); // A resposta é um objeto com chave "viagem"
+            JSONArray array = obj.getJSONArray("viagem");
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject json = array.getJSONObject(i);
+                Viagem v = construirViagem(json);
+                lista.add(v);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+
 
     public List<Viagem> listarViagensPorMotorista(Motorista motorista) {
         String resposta = ViagemAPI.listarPorMotorista(motorista.getId());
@@ -193,15 +214,16 @@ public class Viagem {
 
         return new Viagem(
                 obj.getInt("id"),
-                obj.getString("endereco_de_partida"),
-                obj.getString("endereco_de_chegada"),
-                obj.getString("data_hora_de_partida"),
-                obj.getString("data_hora_de_chegada"),
-                obj.getString("status"),
+                Criptografia.descriptografar(obj.getString("endereco_de_partida")),
+                Criptografia.descriptografar(obj.getString("endereco_de_chegada")),
+                Criptografia.descriptografar(obj.getString("data_hora_de_partida")),
+                Criptografia.descriptografar(obj.getString("data_hora_de_chegada")),
+                Criptografia.descriptografar(obj.getString("status")),
                 motorista,
                 passageiro
         );
     }
+
 
     private JSONObject montarJson() throws Exception {
         JSONObject json = new JSONObject();

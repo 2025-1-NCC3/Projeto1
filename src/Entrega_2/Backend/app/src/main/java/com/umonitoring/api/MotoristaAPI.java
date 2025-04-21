@@ -1,5 +1,7 @@
 package com.umonitoring.api;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -16,6 +18,7 @@ public class MotoristaAPI {
 
         try {
             String baseUrl = ServidorConfig.getUrl("motorista");
+            Log.d("DEBUG_LISTAR", "URL usada: " + baseUrl);
             if (baseUrl == null) return "Erro: Servidor não detectado.";
 
             URL url = new URL(baseUrl);
@@ -24,19 +27,21 @@ public class MotoristaAPI {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
             String linha;
-
             while ((linha = reader.readLine()) != null) {
                 resultado.append(linha);
             }
-
             reader.close();
         } catch (Exception e) {
             e.printStackTrace();
-            return "Erro: " + e.getMessage();
+            Log.e("ERRO_API", "Erro na requisição", e);
+            return "Erro: " + e.getClass().getSimpleName() + " - " + e.getMessage();
         }
 
+        Log.d("DEBUG_LISTAR", "Resposta recebida: " + resultado.toString());
         return resultado.toString();
     }
+
+
 
     // GET: busca um motorista por ID
     public static String buscarPorId(int id) {
