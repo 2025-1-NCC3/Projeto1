@@ -1,31 +1,21 @@
-# Entregas do PI
+# Entrega 2
 
-## Entrega 1
-<br><br>
+## Projeto Interdisciplinar Aplicativo Móvel
 
-### Disciplina 1
+### 🔐 Criptografia
+- [Código da classe `Criptografia.java`](https://github.com/2025-1-NCC3/Projeto1/blob/main/src/Entrega_2/Backend/app_simulado/app/src/main/java/com/umonitoring/utils/Criptografia.java)
+- [Implementações com criptografia nas classes do modelo](https://github.com/2025-1-NCC3/Projeto1/tree/main/src/Entrega_2/Backend/app_simulado/app/src/main/java/com/umonitoring/models)
 
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
+### 📝 Informações para Publicação na Play Store
+- [PDF da descrição para Play Store](https://github.com/2025-1-NCC3/Projeto1/raw/main/documentos/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/U-Monitoring%20-%20descri%C3%A7%C3%A3o%20para%20PlayStore.pdf)
+- [Diretório para imagens](https://github.com/2025-1-NCC3/Projeto1/tree/main/documentos/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel)
 
-### Disciplina 2
+---
 
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
+## Programação para Dispositivos Móveis
 
-### Disciplina 3
+### 📱 APK e AAB para instalação
 
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
-<b>ALUNO 1- [Trabalho/Documento](https://github.com/fecaphub/Template_PI/blob/main/documentos/Entrega%201/Disciplina%201/Venha%20para%20a%20FECAP!.txt)</b>
-<br><br>
+- 🔽 [Download do APK](https://github.com/2025-1-NCC3/Projeto1/raw/main/src/Entrega_2/U-Monitoring-v1.apk)
+- 🔽 [Download do AAB](https://github.com/2025-1-NCC3/Projeto1/raw/main/src/Entrega_2/U-Monitoring-v1.aab)
+
