@@ -2,6 +2,7 @@
 <resources>
     <color name="Background">#2B2B2B</color>
     <color name="TextColorWHite">#FFFFFF</color>
+    <color name="TextColorGrey">#A0ABABAB</color>
     <color name="ButtonColor1">#2160ED</color>
 
 </resources>

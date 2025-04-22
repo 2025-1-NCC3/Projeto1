@@ -61,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView tempoAtePassageiro, enderecoEmbarque, tempoAteDestino, enderecoDestino;
     private Button btnAceitarCorrida;
 
+    private LinearLayout boxDeEmbarque;
+    private TextView textNomePassageiro, textEnderecoDesembarque, textTempoDeCorrida;
+    private Button btnInciarCorrida;
+
+
     private LinearLayout rodapeCorridaAtiva;
     private TextView tempoRestante, distanciaRestante, textView7_destino;
     private ImageView imageViewNavegacao, btnSeguranca, btnConfiguracao;
@@ -85,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
         tempoAteDestino = findViewById(R.id.tempoAteDestino);
         enderecoDestino = findViewById(R.id.enderecoDestino);
         btnAceitarCorrida = findViewById(R.id.btnAceitarCorrida);
+
+        boxDeEmbarque = findViewById(R.id.boxDeEmbarque);
+        textNomePassageiro = findViewById(R.id.textNomePassageiro);
+        textEnderecoDesembarque = findViewById(R.id.textEnderecoDesembarque);
+        textTempoDeCorrida = findViewById(R.id.textTempoDeCorrida);
+        btnInciarCorrida = findViewById(R.id.btnInciarCorrida);
+
 
         rodapeCorridaAtiva = findViewById(R.id.rodapeCorridaAtiva);
         tempoRestante = findViewById(R.id.tempoRestante);
@@ -136,19 +148,40 @@ public class MainActivity extends AppCompatActivity {
                     GeoPoint origem = localFake;
                     if (origem != null) {
                         GeoPoint pontoDeEmbarque = geocodificarEndereco(enderecoEmbarqueStr);
-                        GeoPoint destinoFinal = geocodificarEndereco(enderecoDestinoStr);
+                        GeoPoint destinoFinalGeo = geocodificarEndereco(enderecoDestinoStr);
 
+                        // Início da corrida: indo buscar passageiro
                         boxChamadaDeCorrida.setVisibility(View.GONE);
                         cabecalhoCorridaAtiva.setVisibility(View.VISIBLE);
                         rodapeCorridaAtiva.setVisibility(View.VISIBLE);
                         cabecalhoCorridaAtiva.setText("Indo buscar passageiro...");
                         boxSetting.setVisibility(View.GONE);
+                        boxDeEmbarque.setVisibility(View.GONE); // <- garante que o box esteja oculto
 
                         corridaEmAndamento = true;
 
                         simularCorrida(origem, pontoDeEmbarque, () -> {
-                            cabecalhoCorridaAtiva.setText("Rumo ao destino final...");
-                            simularCorrida(pontoDeEmbarque, destinoFinal, null);
+                            // Chegou no embarque
+                            cabecalhoCorridaAtiva.setVisibility(View.GONE);
+                            rodapeCorridaAtiva.setVisibility(View.GONE);
+                            boxDeEmbarque.setVisibility(View.VISIBLE);
+
+                            // Preenche informações do embarque
+                            textNomePassageiro.setText("Fulana de Tal"); // pode vir do backend no futuro
+                            textEnderecoDesembarque.setText(enderecoDestinoStr);
+                            textTempoDeCorrida.setText(estimarTempo(calcularDistanciaKm(pontoDeEmbarque, destinoFinalGeo)));
+
+                            // Configura botão para iniciar corrida ao destino
+                            btnInciarCorrida.setOnClickListener(v -> {
+                                boxDeEmbarque.setVisibility(View.GONE);
+                                cabecalhoCorridaAtiva.setVisibility(View.VISIBLE);
+                                rodapeCorridaAtiva.setVisibility(View.VISIBLE);
+                                cabecalhoCorridaAtiva.setText("Rumo ao destino final...");
+
+                                simularCorrida(pontoDeEmbarque, destinoFinalGeo, () -> {
+                                    boxSetting.setVisibility(View.VISIBLE);
+                                });
+                            });
                         });
 
                     } else {
@@ -157,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
         rodapeCorridaAtiva.setOnClickListener(v -> {
             boxSetting.setVisibility(View.VISIBLE);
