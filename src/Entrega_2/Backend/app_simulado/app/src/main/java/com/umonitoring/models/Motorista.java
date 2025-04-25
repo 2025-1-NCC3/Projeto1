@@ -187,9 +187,12 @@ public class Motorista extends Usuario {
         }
     }
 
-    private JSONObject montarJson() throws Exception {
+    public JSONObject montarJson() throws Exception {
         JSONObject json = new JSONObject();
+
         json.put("nome", Criptografia.criptografar(getNome()));
+        Log.d("JSON_NOME", "Nome enviado no JSON: " + getNome());
+
         json.put("sobrenome", Criptografia.criptografar(getSobrenome()));
         json.put("telefone", Criptografia.criptografar(getTelefone()));
         json.put("email", Criptografia.criptografar(getEmail()));
@@ -201,7 +204,18 @@ public class Motorista extends Usuario {
         json.put("frase_de_seguranca_1", frase1);
         json.put("frase_de_seguranca_2", frase2);
         json.put("frase_de_seguranca_3", frase3);
+
         return json;
+    }
+
+
+    public JSONObject getJsonParaDebug() {
+        try {
+            return montarJson();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

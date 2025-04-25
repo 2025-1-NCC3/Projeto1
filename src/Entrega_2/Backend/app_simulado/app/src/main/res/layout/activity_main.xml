@@ -10,28 +10,18 @@
     android:gravity="center"
     tools:context=".activities.MainActivity">
 
-    <Button
-        android:id="@+id/btnTesteServidor"
+    <EditText
+        android:id="@+id/editTextNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Conectar com o Servidor" />
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name" />
 
     <Button
-        android:id="@+id/btnListarMotoristas"
+        android:id="@+id/btnSet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Listar Motoristas" />
-
-    <Button
-        android:id="@+id/btnListarPassageiros"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Listar Passageiros" />
-
-    <Button
-        android:id="@+id/btnListarViagens"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Listar Viagens" />
+        android:text="Button" />
 
 </LinearLayout>

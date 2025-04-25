@@ -15,14 +15,13 @@ import java.util.List;
 public class ServidorConfig {
 
     private static final List<String> SERVIDORES = Arrays.asList(
-            "http://10.0.2.2:3000",
-            "https://y7yncg-3000.csb.app",
-            "https://9dc78641-1bd1-45c8-90c2-5ef78eb75b05-00-1liaz9tknfzel.spock.replit.dev"
+            "https://y7yncg-3000.csb.app"
     );
+
 
     private static String servidorAtivo = null;
 
-    public static void detectarServidor(Activity activity) {
+    public static void detectarServidor(Activity activity, OnServidorDetectado callback) {
         new Thread(() -> {
             for (String servidor : SERVIDORES) {
                 if (testarConexao(servidor)) {
@@ -30,12 +29,16 @@ public class ServidorConfig {
                     String msg = "✅ Conectado ao servidor: " + servidor;
                     Log.d("ServidorConfig", msg);
                     mostrarToast(activity, msg);
+
+                    // Executa o callback
+                    activity.runOnUiThread(callback::onDetectado);
                     return;
                 }
             }
             mostrarToast(activity, "❌ Nenhum servidor está disponível.");
         }).start();
     }
+
 
     public static void testarRota(Activity activity, String rota) {
         new Thread(() -> {
@@ -85,9 +88,9 @@ public class ServidorConfig {
 
     private static boolean testarConexao(String urlBase) {
         try {
-            URL url = new URL(urlBase);
+            URL url = new URL(urlBase + "/motorista");
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
-            conexao.setConnectTimeout(1000);
+            conexao.setConnectTimeout(3000);
             conexao.setRequestMethod("GET");
 
             int codigo = conexao.getResponseCode();
@@ -96,4 +99,6 @@ public class ServidorConfig {
             return false;
         }
     }
+
+
 }
