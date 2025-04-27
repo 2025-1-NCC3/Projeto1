@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
                 String servidorUsado = ServidorConfig.getUrl("");
                 android.util.Log.d("ServidorDetectado", "Servidor ativo: " + servidorUsado);
 
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, TelaDeViagemActivity.class);
                 startActivity(intent);
                 finish();
             });
