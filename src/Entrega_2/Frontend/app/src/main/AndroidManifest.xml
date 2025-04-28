@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="br.com.fecapccp.u_monitoring">
+    package="br.com.fecapccp.umonitoring">
 
     <!-- PERMISSÕES -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -27,7 +27,7 @@
 
         <!-- Activity principal -->
         <activity
-            android:name=".MainActivity"
+            android:name="br.com.fecapccp.br.fecap.umonitoring.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,7 @@
 
         <!-- Serviço de reconhecimento de voz -->
         <service
-            android:name=".VoiceRecognitionService"
+            android:name="br.com.fecapccp.br.fecap.umonitoring.VoiceRecognitionService"
             android:exported="false"
             android:foregroundServiceType="microphone" />
     </application>

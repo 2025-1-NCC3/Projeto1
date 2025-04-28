@@ -1,4 +1,4 @@
-package br.com.fecapccp.u_monitoring;
+package br.com.fecapccp.umonitoring;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,7 +14,6 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class VoiceRecognitionService extends Service {
 

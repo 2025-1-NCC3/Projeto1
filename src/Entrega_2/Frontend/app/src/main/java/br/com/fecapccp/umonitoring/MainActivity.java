@@ -1,4 +1,4 @@
-package br.com.fecapccp.u_monitoring;
+package br.com.fecapccp.umonitoring;
 
 import android.Manifest;
 import android.content.Intent;
@@ -35,6 +35,8 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import android.preference.PreferenceManager;
+
+import br.com.fecapccp.u_monitoring.R;
 
 public class MainActivity extends AppCompatActivity {
 

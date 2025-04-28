@@ -1,4 +1,4 @@
-package br.com.fecapccp.u_monitoring;
+package br.com.fecapccp.umonitoring;
 
 import android.content.Context;
 
