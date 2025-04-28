@@ -9,13 +9,3 @@
 ### 📝 Informações para Publicação na Play Store
 - [PDF da descrição para Play Store](https://github.com/2025-1-NCC3/Projeto1/blob/main/documentos/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/U-Monitoring%20-%20descri%C3%A7%C3%A3o%20para%20PlayStore.pdf)
 - [Diretório para imagens](https://github.com/2025-1-NCC3/Projeto1/tree/main/documentos/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel)
-
----
-
-## Programação para Dispositivos Móveis
-
-### 📱 APK e AAB para instalação
-
-- 🔽 [Download do APK](https://github.com/2025-1-NCC3/Projeto1/raw/main/src/Entrega_2/U-Monitoring-v1.apk)
-- 🔽 [Download do AAB](https://github.com/2025-1-NCC3/Projeto1/raw/main/src/Entrega_2/U-Monitoring-v1.aab)
-
