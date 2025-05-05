@@ -23,7 +23,7 @@ public class ServidorConfig {
 
     private static String servidorAtivo = null;
 
-    public static void detectarServidor(Activity activity, OnServidorDetectado callback) {
+    public static void detectarServidor(Activity activity, Runnable onSuccess, Runnable onFailure) {
         new Thread(() -> {
             for (String servidor : SERVIDORES) {
                 if (testarConexao(servidor)) {
@@ -32,12 +32,14 @@ public class ServidorConfig {
                     Log.d("ServidorConfig", msg);
                     mostrarToast(activity, msg);
 
-                    // Executa o callback
-                    activity.runOnUiThread(callback::onDetectado);
+                    activity.runOnUiThread(onSuccess);
                     return;
                 }
             }
-            mostrarToast(activity, "❌ Nenhum servidor está disponível.");
+
+            // Nenhum servidor encontrado
+            Log.w("ServidorConfig", "Nenhum servidor está disponível no momento.");
+            activity.runOnUiThread(onFailure);
         }).start();
     }
 

@@ -17,27 +17,36 @@ import com.umonitoring.api.ServidorConfig;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final int INTERVALO_TENTATIVA_MS = 1500; // Intervalo entre tentativas (1,5 segundos)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            ServidorConfig.detectarServidor(this, () -> {
-                String servidorUsado = ServidorConfig.getUrl("");
-                android.util.Log.d("ServidorDetectado", "Servidor ativo: " + servidorUsado);
+        tentarDetectarServidor(); // Inicia as tentativas
+    }
 
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            });
+    private void tentarDetectarServidor() {
+        ServidorConfig.detectarServidor(this, () -> {
+            String servidorUsado = ServidorConfig.getUrl("");
+            Log.d("ServidorDetectado", "Servidor ativo: " + servidorUsado);
 
-        }, 1500); // 1,5 segundo de splash
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }, () -> {
+            Log.w("ServidorDetectado", "Servidor ainda não disponível. Tentando novamente...");
+            handler.postDelayed(this::tentarDetectarServidor, INTERVALO_TENTATIVA_MS);
+        });
     }
 }
