@@ -15,7 +15,9 @@ import java.util.List;
 public class ServidorConfig {
 
     private static final List<String> SERVIDORES = Arrays.asList(
-            "https://y7yncg-3000.csb.app"
+            "https://y7yncg-3000.csb.app",
+            "https://9dc78641-1bd1-45c8-90c2-5ef78eb75b05-00-1liaz9tknfzel.spock.replit.dev/"
+
     );
 
 
