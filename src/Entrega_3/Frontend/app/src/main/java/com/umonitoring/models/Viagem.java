@@ -1,12 +1,9 @@
 package com.umonitoring.models;
 
 import com.umonitoring.utils.Criptografia;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.umonitoring.api.ViagemAPI;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,86 +28,47 @@ public class Viagem {
         this.passageiro = passageiro;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getEnderecoDePartida() { return Criptografia.descriptografar(enderecoDePartida); }
+    public void setEnderecoDePartida(String endereco) { this.enderecoDePartida = Criptografia.criptografar(endereco); }
 
-    public String getEnderecoDePartida() {
-        return Criptografia.descriptografar(enderecoDePartida);
-    }
+    public String getEnderecoDeChegada() { return Criptografia.descriptografar(enderecoDeChegada); }
+    public void setEnderecoDeChegada(String endereco) { this.enderecoDeChegada = Criptografia.criptografar(endereco); }
 
-    public void setEnderecoDePartida(String endereco) {
-        this.enderecoDePartida = Criptografia.criptografar(endereco);
-    }
+    public String getDataHoraDePartida() { return Criptografia.descriptografar(dataHoraDePartida); }
+    public void setDataHoraDePartida(String dataHora) { this.dataHoraDePartida = Criptografia.criptografar(dataHora); }
 
-    public String getEnderecoDeChegada() {
-        return Criptografia.descriptografar(enderecoDeChegada);
-    }
+    public String getDataHoraDeChegada() { return Criptografia.descriptografar(dataHoraDeChegada); }
+    public void setDataHoraDeChegada(String dataHora) { this.dataHoraDeChegada = Criptografia.criptografar(dataHora); }
 
-    public void setEnderecoDeChegada(String endereco) {
-        this.enderecoDeChegada = Criptografia.criptografar(endereco);
-    }
+    public String getStatus() { return Criptografia.descriptografar(status); }
+    public void setStatus(String status) { this.status = Criptografia.criptografar(status); }
 
-    public String getDataHoraDePartida() {
-        return Criptografia.descriptografar(dataHoraDePartida);
-    }
+    public Motorista getMotorista() { return motorista; }
+    public void setMotorista(Motorista motorista) { this.motorista = motorista; }
 
-    public void setDataHoraDePartida(String dataHora) {
-        this.dataHoraDePartida = Criptografia.criptografar(dataHora);
-    }
-
-    public String getDataHoraDeChegada() {
-        return Criptografia.descriptografar(dataHoraDeChegada);
-    }
-
-    public void setDataHoraDeChegada(String dataHora) {
-        this.dataHoraDeChegada = Criptografia.criptografar(dataHora);
-    }
-
-    public String getStatus() {
-        return Criptografia.descriptografar(status);
-    }
-
-    public void setStatus(String status) {
-        this.status = Criptografia.criptografar(status);
-    }
-
-    public Motorista getMotorista() {
-        return motorista;
-    }
-
-    public void setMotorista(Motorista motorista) {
-        this.motorista = motorista;
-    }
-
-    public Passageiro getPassageiro() {
-        return passageiro;
-    }
-
-    public void setPassageiro(Passageiro passageiro) {
-        this.passageiro = passageiro;
-    }
+    public Passageiro getPassageiro() { return passageiro; }
+    public void setPassageiro(Passageiro passageiro) { this.passageiro = passageiro; }
 
     public void criarViagem() {
-        agendar(); // já implementado
+        agendar();
     }
 
-    public List<Viagem> listarTodasAsViagens() {
+    public static List<Viagem> listarTodasAsViagens() {
         String resposta = ViagemAPI.listarTodas();
         List<Viagem> lista = new ArrayList<>();
 
         try {
-            JSONObject obj = new JSONObject(resposta); // A resposta é um objeto com chave "viagem"
-            JSONArray array = obj.getJSONArray("viagem");
-
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject json = array.getJSONObject(i);
-                Viagem v = construirViagem(json);
-                lista.add(v);
+            JSONObject obj = new JSONObject(resposta);
+            if (obj.has("viagens")) {
+                JSONArray array = obj.getJSONArray("viagens");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject json = array.getJSONObject(i);
+                    Viagem v = construirViagem(json);
+                    lista.add(v);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,9 +77,7 @@ public class Viagem {
         return lista;
     }
 
-
-
-    public List<Viagem> listarViagensPorMotorista(Motorista motorista) {
+    public static List<Viagem> listarViagensPorMotorista(Motorista motorista) {
         String resposta = ViagemAPI.listarPorMotorista(motorista.getId());
         List<Viagem> lista = new ArrayList<>();
 
@@ -139,8 +95,7 @@ public class Viagem {
         return lista;
     }
 
-
-    public List<Viagem> listarViagensPorPassageiro(Passageiro passageiro) {
+    public static List<Viagem> listarViagensPorPassageiro(Passageiro passageiro) {
         String resposta = ViagemAPI.listarPorPassageiro(passageiro.getId());
         List<Viagem> lista = new ArrayList<>();
 
@@ -158,8 +113,7 @@ public class Viagem {
         return lista;
     }
 
-
-    public Viagem buscarViagemPorId(int id) {
+    public static Viagem buscarViagemPorId(int id) {
         String resposta = ViagemAPI.buscarPorId(id);
 
         try {
@@ -171,16 +125,13 @@ public class Viagem {
         }
     }
 
-
     public void atualizarViagem(int id, Viagem viagem) {
         viagem.atualizar(id);
     }
 
-
     public void deletarViagem(int id) {
         cancelar(id);
     }
-
 
     public String agendar() {
         try {
@@ -208,7 +159,7 @@ public class Viagem {
         }
     }
 
-    private Viagem construirViagem(JSONObject obj) throws Exception {
+    private static Viagem construirViagem(JSONObject obj) throws Exception {
         Motorista motorista = Motorista.buscarMotoristaPorId(obj.getInt("motorista_id"));
         Passageiro passageiro = Passageiro.buscarPassageiroPorId(obj.getInt("passageiro_id"));
 
@@ -224,7 +175,6 @@ public class Viagem {
         );
     }
 
-
     private JSONObject montarJson() throws Exception {
         JSONObject json = new JSONObject();
         json.put("endereco_de_partida", enderecoDePartida);
@@ -236,5 +186,4 @@ public class Viagem {
         json.put("passageiro_id", passageiro.getId());
         return json;
     }
-
 }

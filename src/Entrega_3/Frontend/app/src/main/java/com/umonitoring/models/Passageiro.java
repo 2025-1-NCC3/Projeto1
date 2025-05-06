@@ -1,15 +1,11 @@
 package com.umonitoring.models;
 
 import com.umonitoring.utils.Criptografia;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.umonitoring.api.PassageiroAPI;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 
 public class Passageiro extends Usuario {
     public Passageiro(int id, String nome, String sobrenome, String telefone, String email, String senha) {
@@ -41,20 +37,16 @@ public class Passageiro extends Usuario {
         }
     }
 
-
-
-
-    public List<Passageiro> listarPassageiros() {
+    public static List<Passageiro> listarPassageiros() {
         String resposta = PassageiroAPI.listarTodos();
         List<Passageiro> lista = new ArrayList<>();
 
         try {
             JSONObject obj = new JSONObject(resposta);
-            JSONArray array = obj.getJSONArray("passageiro");
+            JSONArray array = obj.getJSONArray("passageiros");
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject json = array.getJSONObject(i);
-
                 Passageiro p = new Passageiro(
                         json.getInt("id"),
                         Criptografia.descriptografar(json.getString("nome")),
@@ -63,7 +55,6 @@ public class Passageiro extends Usuario {
                         Criptografia.descriptografar(json.getString("email")),
                         Criptografia.descriptografar(json.getString("senha"))
                 );
-
                 lista.add(p);
             }
         } catch (Exception e) {
@@ -72,9 +63,6 @@ public class Passageiro extends Usuario {
 
         return lista;
     }
-
-
-
 
     public void atualizarPassageiro(int id, Passageiro passageiro) {
         passageiro.atualizar(id);
@@ -119,5 +107,4 @@ public class Passageiro extends Usuario {
         json.put("senha", Criptografia.criptografar(getSenha()));
         return json;
     }
-
 }

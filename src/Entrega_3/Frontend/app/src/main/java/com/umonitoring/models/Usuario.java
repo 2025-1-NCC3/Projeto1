@@ -2,7 +2,7 @@ package com.umonitoring.models;
 
 import com.umonitoring.utils.Criptografia;
 
-public class Usuario {
+public abstract class Usuario {
     private int id;
     private String nome;
     private String sobrenome;

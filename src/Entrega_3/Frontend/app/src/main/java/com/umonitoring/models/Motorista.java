@@ -1,14 +1,10 @@
 package com.umonitoring.models;
 
 import android.util.Log;
-
 import com.umonitoring.utils.Criptografia;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.umonitoring.api.MotoristaAPI;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,67 +28,32 @@ public class Motorista extends Usuario {
         this.frase3 = Criptografia.criptografar(frase3);
     }
 
-    //----------------------------- Getters e Setters -----------------------------
+    public String getModeloDoCarro() { return Criptografia.descriptografar(modeloDoCarro); }
+    public void setModeloDoCarro(String modelo) { this.modeloDoCarro = Criptografia.criptografar(modelo); }
+    public String getPlacaDoCarro() { return Criptografia.descriptografar(placaDoCarro); }
+    public void setPlacaDoCarro(String placa) { this.placaDoCarro = Criptografia.criptografar(placa); }
+    public String getDisponibilidade() { return Criptografia.descriptografar(disponibilidade); }
+    public void setDisponibilidade(String disponibilidade) { this.disponibilidade = Criptografia.criptografar(disponibilidade); }
+    public String getStatusProtocolo() { return Criptografia.descriptografar(statusProtocolo); }
+    public void setStatusProtocolo(String status) { this.statusProtocolo = Criptografia.criptografar(status); }
+    public String getFrase1() { return Criptografia.descriptografar(frase1); }
+    public void setFrase1(String f1) { this.frase1 = Criptografia.criptografar(f1); }
+    public String getFrase2() { return Criptografia.descriptografar(frase2); }
+    public void setFrase2(String f2) { this.frase2 = Criptografia.criptografar(f2); }
+    public String getFrase3() { return Criptografia.descriptografar(frase3); }
+    public void setFrase3(String f3) { this.frase3 = Criptografia.criptografar(f3); }
 
-    public String getModeloDoCarro() {
-        return Criptografia.descriptografar(modeloDoCarro);
-    }
-    public void setModeloDoCarro(String modelo) {
-        this.modeloDoCarro = Criptografia.criptografar(modelo);
-    }
-    public String getPlacaDoCarro() {
-        return Criptografia.descriptografar(placaDoCarro);
-    }
-    public void setPlacaDoCarro(String placa) {
-        this.placaDoCarro = Criptografia.criptografar(placa);
-    }
-    public String getDisponibilidade() {
-        return Criptografia.descriptografar(disponibilidade);
-    }
-    public void setDisponibilidade(String disponibilidade) {
-        this.disponibilidade = Criptografia.criptografar(disponibilidade);
-    }
-    public String getStatusProtocolo() {
-        return Criptografia.descriptografar(statusProtocolo);
-    }
-    public void setStatusProtocolo(String status) {
-        this.statusProtocolo = Criptografia.criptografar(status);
-    }
-    public String getFrase1() {
-        return Criptografia.descriptografar(frase1);
-    }
-    public void setFrase1(String f1) {
-        this.frase1 = Criptografia.criptografar(f1);
-    }
-    public String getFrase2() {
-        return Criptografia.descriptografar(frase2);
-    }
-    public void setFrase2(String f2) {
-        this.frase2 = Criptografia.criptografar(f2);
-    }
-    public String getFrase3() {
-        return Criptografia.descriptografar(frase3);
-    }
-    public void setFrase3(String f3) {
-        this.frase3 = Criptografia.criptografar(f3);
-    }
+    public void criarMotorista() { salvar(); }
 
-    // ----------------------------- funções do CRUD -----------------------------
-
-    public void criarMotorista() {
-        salvar();
-    }
-    public List<Motorista> listarMotoristas() {
+    public static List<Motorista> listarMotoristas() {
         String resposta = MotoristaAPI.listarTodos();
         List<Motorista> lista = new ArrayList<>();
 
         try {
-            JSONObject obj = new JSONObject(resposta); // resposta = { "motoristas": [...] }
+            JSONObject obj = new JSONObject(resposta);
             JSONArray array = obj.getJSONArray("motoristas");
-
             for (int i = 0; i < array.length(); i++) {
                 JSONObject json = array.getJSONObject(i);
-
                 Motorista m = new Motorista(
                         json.getInt("id"),
                         Criptografia.descriptografar(json.getString("nome")),
@@ -108,7 +69,6 @@ public class Motorista extends Usuario {
                         Criptografia.descriptografar(json.getString("frase_de_seguranca_2")),
                         Criptografia.descriptografar(json.getString("frase_de_seguranca_3"))
                 );
-
                 lista.add(m);
             }
         } catch (Exception e) {
@@ -119,13 +79,12 @@ public class Motorista extends Usuario {
         return lista;
     }
 
-
     public static Motorista buscarMotoristaPorId(int id) {
         String resposta = MotoristaAPI.buscarPorId(id);
 
         try {
             JSONObject obj = new JSONObject(resposta);
-            JSONObject json = obj.getJSONObject("motoristas"); // <- nome correto da chave
+            JSONObject json = obj.getJSONObject("motoristas");
 
             return new Motorista(
                     json.getInt("id"),
@@ -148,18 +107,8 @@ public class Motorista extends Usuario {
         }
     }
 
-
-
-
-
-
-    public void atualizarMotorista(int id, Motorista motorista) {
-        motorista.atualizar(id);
-    }
-
-    public void deletarMotorista(int id) {
-        remover(id);
-    }
+    public void atualizarMotorista(int id, Motorista motorista) { motorista.atualizar(id); }
+    public void deletarMotorista(int id) { remover(id); }
 
     public String salvar() {
         try {
@@ -189,10 +138,8 @@ public class Motorista extends Usuario {
 
     public JSONObject montarJson() throws Exception {
         JSONObject json = new JSONObject();
-
         json.put("nome", Criptografia.criptografar(getNome()));
         Log.d("JSON_NOME", "Nome enviado no JSON: " + getNome());
-
         json.put("sobrenome", Criptografia.criptografar(getSobrenome()));
         json.put("telefone", Criptografia.criptografar(getTelefone()));
         json.put("email", Criptografia.criptografar(getEmail()));
@@ -204,10 +151,8 @@ public class Motorista extends Usuario {
         json.put("frase_de_seguranca_1", frase1);
         json.put("frase_de_seguranca_2", frase2);
         json.put("frase_de_seguranca_3", frase3);
-
         return json;
     }
-
 
     public JSONObject getJsonParaDebug() {
         try {
@@ -217,8 +162,4 @@ public class Motorista extends Usuario {
             return null;
         }
     }
-
-
-
 }
-
