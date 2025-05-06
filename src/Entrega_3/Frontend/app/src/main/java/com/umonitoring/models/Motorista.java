@@ -81,6 +81,7 @@ public class Motorista extends Usuario {
 
     public static Motorista buscarMotoristaPorId(int id) {
         String resposta = MotoristaAPI.buscarPorId(id);
+        Log.d("BUSCAR_MOTORISTA", "Resposta bruta da API: " + resposta); // Adicione isso aqui
 
         try {
             JSONObject obj = new JSONObject(resposta);
@@ -102,10 +103,12 @@ public class Motorista extends Usuario {
                     Criptografia.descriptografar(json.getString("frase_de_seguranca_3"))
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("BUSCAR_MOTORISTA", "Erro ao construir objeto Motorista: " + e.getMessage());
             return null;
         }
     }
+
+
 
     public void atualizarMotorista(int id, Motorista motorista) { motorista.atualizar(id); }
     public void deletarMotorista(int id) { remover(id); }

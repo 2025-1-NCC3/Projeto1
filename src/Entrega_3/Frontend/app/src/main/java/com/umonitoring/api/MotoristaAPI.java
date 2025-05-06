@@ -64,6 +64,10 @@ public class MotoristaAPI {
             }
 
             reader.close();
+
+            // ✅ Aqui sim é o momento certo para logar o conteúdo
+            Log.d("BUSCAR_MOTORISTA", "Resposta bruta da API: " + resultado.toString());
+
         } catch (Exception e) {
             e.printStackTrace();
             return "Erro: " + e.getMessage();
@@ -71,6 +75,7 @@ public class MotoristaAPI {
 
         return resultado.toString();
     }
+
 
     // POST: cadastra um novo motorista
     public static String cadastrar(JSONObject motorista) {

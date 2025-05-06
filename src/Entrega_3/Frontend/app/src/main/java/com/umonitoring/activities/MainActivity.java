@@ -1,8 +1,10 @@
 package com.umonitoring.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,14 +15,23 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.umonitoring.R;
-import com.umonitoring.api.ServidorConfig;
 import com.umonitoring.models.Motorista;
+import com.umonitoring.models.Viagem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editTextNome;
-    private Button btnSet;
-    private int ID = 3;
+    private List<Viagem> viagensDisponiveis = new ArrayList<>();
+    private int indexAtual = 0;
+    private final int motoristaAtualId = 4;
+
+    private LinearLayout boxDeEmbarque, boxChamadaDeCorrida;
+    private TextView textNomePassageiro, textEnderecoDesembarque, textTempoDeCorrida;
+    private TextView tempoAtePassageiro, enderecoEmbargue, tempoAteDestino, enderecoDestino;
+    private Button btnInciarCorrida, btnAceitarCorrida;
+    private ImageButton btnRecusarCorrida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,55 +39,95 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        boxDeEmbarque = findViewById(R.id.boxDeEmbarque);
+        boxChamadaDeCorrida = findViewById(R.id.boxChamadaDeCorrida);
+
+        textNomePassageiro = findViewById(R.id.textNomePassageiro);
+        textEnderecoDesembarque = findViewById(R.id.textEnderecoDesembarque);
+        textTempoDeCorrida = findViewById(R.id.textTempoDeCorrida);
+
+        tempoAtePassageiro = findViewById(R.id.tempoAtePassageiro);
+        enderecoEmbargue = findViewById(R.id.enderecoEmbargue);
+        tempoAteDestino = findViewById(R.id.tempoAteDestino);
+        enderecoDestino = findViewById(R.id.enderecoDestino);
+
+        btnInciarCorrida = findViewById(R.id.btnInciarCorrida);
+        btnAceitarCorrida = findViewById(R.id.btnAceitarCorrida);
+        btnRecusarCorrida = findViewById(R.id.btnRecusarCorrida);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        editTextNome = findViewById(R.id.editTextNome);
-        btnSet = findViewById(R.id.btnSet);
+        carregarViagensDisponiveis();
 
-        Motorista[] motorista = new Motorista[1];
-        btnSet.setEnabled(false);
+        btnAceitarCorrida.setOnClickListener(v -> {
+            Viagem viagem = viagensDisponiveis.get(indexAtual);
+            viagem.setStatus("em andamento");
 
-        new Thread(() -> {
-            Motorista mot = Motorista.buscarMotoristaPorId(ID);
-            motorista[0] = mot;
-
-            runOnUiThread(() -> {
-                if (mot != null) {
-                    editTextNome.setText(mot.getNome());
-                    btnSet.setEnabled(true); //
-                } else {
-                    editTextNome.setText("");
-                    Toast.makeText(this, "Motorista não encontrado", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }).start();
-
-        btnSet.setOnClickListener(view -> {
-            Motorista mot = motorista[0];
-            if (mot != null) {
-                String nomeAtualizado = editTextNome.getText().toString().trim();
-                if (nomeAtualizado.isEmpty()) {
-                    Toast.makeText(this, "O nome não pode estar vazio!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                mot.setNome(nomeAtualizado);
-
-                new Thread(() -> {
-                    String resposta = mot.atualizar(mot.getId());
-                    runOnUiThread(() ->
-                            Toast.makeText(this, resposta, Toast.LENGTH_LONG).show()
-                    );
-                }).start();
-
-            } else {
-                Toast.makeText(this, "Motorista ainda não carregado", Toast.LENGTH_SHORT).show();
+            Motorista motorista = Motorista.buscarMotoristaPorId(motoristaAtualId);
+            if (motorista == null) {
+                Toast.makeText(getApplicationContext(), "Motorista não encontrado!", Toast.LENGTH_SHORT).show();
+                return; // Impede o restante do código de executar
             }
+
+            viagem.setMotorista(motorista);
+
+            viagem.atualizar(viagem.getId());
+            iniciarCorridaComViagemAceita(viagem);
         });
+
+
+        btnRecusarCorrida.setOnClickListener(v -> {
+            indexAtual = (indexAtual + 1) % viagensDisponiveis.size();
+            mostrarProximaViagem();
+        });
+
+        btnInciarCorrida.setOnClickListener(v -> {
+            boxDeEmbarque.setVisibility(View.GONE);
+            carregarViagensDisponiveis(); // Recarrega a lista ao finalizar uma corrida
+        });
+    }
+
+    private void carregarViagensDisponiveis() {
+        new Thread(() -> {
+            List<Viagem> lista = Viagem.listarViagensDisponiveis();
+            runOnUiThread(() -> {
+                viagensDisponiveis.clear();
+                viagensDisponiveis.addAll(lista);
+                indexAtual = 0;
+                mostrarProximaViagem();
+            });
+        }).start();
+    }
+
+    private void mostrarProximaViagem() {
+        if (viagensDisponiveis.isEmpty()) {
+            boxChamadaDeCorrida.setVisibility(View.GONE);
+            Toast.makeText(this, "Nenhuma viagem disponível.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Viagem viagem = viagensDisponiveis.get(indexAtual);
+
+        boxChamadaDeCorrida.setVisibility(View.VISIBLE);
+        boxDeEmbarque.setVisibility(View.GONE);
+
+        textNomePassageiro.setText("Passageiro ID: " + viagem.getPassageiro().getId());
+        enderecoEmbargue.setText(viagem.getEnderecoDePartida());
+        enderecoDestino.setText(viagem.getEnderecoDeChegada());
+        tempoAtePassageiro.setText("5 min");
+        tempoAteDestino.setText("12 min");
+    }
+
+    private void iniciarCorridaComViagemAceita(Viagem viagem) {
+        boxChamadaDeCorrida.setVisibility(View.GONE);
+        boxDeEmbarque.setVisibility(View.VISIBLE);
+
+        textNomePassageiro.setText("Passageiro ID: " + viagem.getPassageiro().getId());
+        textEnderecoDesembarque.setText(viagem.getEnderecoDeChegada());
+        textTempoDeCorrida.setText("12 min");
     }
 }

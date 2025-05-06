@@ -19,6 +19,10 @@ public class ViagemAPI {
         return requisicaoGET("viagem/" + id);
     }
 
+    public static String listarDisponiveis() {
+        return requisicaoGET("viagem/disponiveis");
+    }
+
     public static String listarPorPassageiro(int id) {
         return requisicaoGET("viagem/passageiro/" + id);
     }

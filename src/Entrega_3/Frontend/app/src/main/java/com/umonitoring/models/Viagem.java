@@ -1,5 +1,7 @@
 package com.umonitoring.models;
 
+import android.util.Log;
+
 import com.umonitoring.utils.Criptografia;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ public class Viagem {
         this.enderecoDeChegada = Criptografia.criptografar(enderecoDeChegada);
         this.dataHoraDePartida = Criptografia.criptografar(dataHoraDePartida);
         this.dataHoraDeChegada = Criptografia.criptografar(dataHoraDeChegada);
-        this.status = Criptografia.criptografar(status);
+        this.status = status;
         this.motorista = motorista;
         this.passageiro = passageiro;
     }
@@ -43,8 +45,8 @@ public class Viagem {
     public String getDataHoraDeChegada() { return Criptografia.descriptografar(dataHoraDeChegada); }
     public void setDataHoraDeChegada(String dataHora) { this.dataHoraDeChegada = Criptografia.criptografar(dataHora); }
 
-    public String getStatus() { return Criptografia.descriptografar(status); }
-    public void setStatus(String status) { this.status = Criptografia.criptografar(status); }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
     public Motorista getMotorista() { return motorista; }
     public void setMotorista(Motorista motorista) { this.motorista = motorista; }
@@ -76,6 +78,34 @@ public class Viagem {
 
         return lista;
     }
+
+    public static List<Viagem> listarViagensDisponiveis() {
+        String resposta = ViagemAPI.listarDisponiveis();
+        Log.d("VIAGEM_DISPONIVEIS", "Resposta: " + resposta); // debug
+
+        List<Viagem> lista = new ArrayList<>();
+
+        try {
+            JSONObject obj = new JSONObject(resposta);
+            if (obj.has("viagens")) {
+                JSONArray array = obj.getJSONArray("viagens");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject json = array.getJSONObject(i);
+                    Viagem v = construirViagem(json);
+                    lista.add(v);
+                }
+            } else {
+                Log.e("VIAGEM_DISPONIVEIS", "Chave 'viagens' não encontrada no JSON.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("VIAGEM_DISPONIVEIS", "Erro ao processar JSON: " + e.getMessage());
+        }
+
+        return lista;
+    }
+
+
 
     public static List<Viagem> listarViagensPorMotorista(Motorista motorista) {
         String resposta = ViagemAPI.listarPorMotorista(motorista.getId());
@@ -160,20 +190,25 @@ public class Viagem {
     }
 
     private static Viagem construirViagem(JSONObject obj) throws Exception {
-        Motorista motorista = Motorista.buscarMotoristaPorId(obj.getInt("motorista_id"));
+        Motorista motorista = null;
         Passageiro passageiro = Passageiro.buscarPassageiroPorId(obj.getInt("passageiro_id"));
+
+        if (!obj.isNull("motorista_id")) {
+            motorista = Motorista.buscarMotoristaPorId(obj.getInt("motorista_id"));
+        }
 
         return new Viagem(
                 obj.getInt("id"),
                 Criptografia.descriptografar(obj.getString("endereco_de_partida")),
                 Criptografia.descriptografar(obj.getString("endereco_de_chegada")),
-                Criptografia.descriptografar(obj.getString("data_hora_de_partida")),
-                Criptografia.descriptografar(obj.getString("data_hora_de_chegada")),
-                Criptografia.descriptografar(obj.getString("status")),
+                Criptografia.descriptografar(obj.optString("data_hora_de_partida", "")),
+                Criptografia.descriptografar(obj.optString("data_hora_de_chegada", "")),
+                obj.getString("status"),
                 motorista,
                 passageiro
         );
     }
+
 
     private JSONObject montarJson() throws Exception {
         JSONObject json = new JSONObject();
