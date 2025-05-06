@@ -5,6 +5,7 @@ const cors = require("cors");
 const motoristaRoutes = require("./routes/motorista");
 const passageiroRoutes = require("./routes/passageiro");
 const viagemRoutes = require("./routes/viagem");
+const loginRoute = require("./routes/login");
 
 const PORT = process.env.PORT || 3000;
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/motorista", motoristaRoutes);
 app.use("/passageiro", passageiroRoutes);
 app.use("/viagem", viagemRoutes);
+app.use("/login", loginRoute);
 
 // Rota raiz
 app.get("/", (req, res) => res.send("🚀 Servidor rodando corretamente"));

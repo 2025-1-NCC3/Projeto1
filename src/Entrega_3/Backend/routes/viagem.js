@@ -33,6 +33,15 @@ router.get("/motorista/:id", (req, res) => {
   });
 });
 
+// Lista todas as viagens disponíveis
+router.get("/disponiveis", (req, res) => {
+  const sql = `SELECT * FROM Viagem WHERE status = 'disponivel'`;
+  db.all(sql, [], (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ viagens: rows });
+  });
+});
+
 // Encontra uma Viagem pelo ID
 router.get("/:id", (req, res) => {
   db.get(`SELECT * FROM Viagem WHERE id=?`, [req.params.id], (err, row) => {
