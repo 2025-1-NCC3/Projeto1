@@ -18,7 +18,7 @@ import com.umonitoring.api.ServidorConfig;
 public class SplashActivity extends AppCompatActivity {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final int INTERVALO_TENTATIVA_MS = 1500; // Intervalo entre tentativas (1,5 segundos)
+    private final int INTERVALO_TENTATIVA_MS = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
 
-        tentarDetectarServidor(); // Inicia as tentativas
+        tentarDetectarServidor();
     }
 
     private void tentarDetectarServidor() {
@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
             String servidorUsado = ServidorConfig.getUrl("");
             Log.d("ServidorDetectado", "Servidor ativo: " + servidorUsado);
 
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, TelaDeViagemActivity.class);
             startActivity(intent);
             finish();
 
