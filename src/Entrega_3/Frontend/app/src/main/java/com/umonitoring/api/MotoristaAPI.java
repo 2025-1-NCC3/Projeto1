@@ -56,25 +56,36 @@ public class MotoristaAPI {
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
             conexao.setRequestMethod("GET");
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
-            String linha;
+            int status = conexao.getResponseCode();
 
+            BufferedReader reader;
+            if (status >= 200 && status < 300) {
+                reader = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
+            } else {
+                reader = new BufferedReader(new InputStreamReader(conexao.getErrorStream()));
+            }
+
+            String linha;
             while ((linha = reader.readLine()) != null) {
                 resultado.append(linha);
             }
-
             reader.close();
 
-            // ✅ Aqui sim é o momento certo para logar o conteúdo
             Log.d("BUSCAR_MOTORISTA", "Resposta bruta da API: " + resultado.toString());
 
+            if (status != 200) {
+                return "Erro: " + resultado.toString();
+            }
+
         } catch (Exception e) {
-            e.printStackTrace();
-            return "Erro: " + e.getMessage();
+            Log.e("BUSCAR_MOTORISTA", "Exceção capturada:", e);  // log completo da exceção
+            return "Erro: " + (e.getMessage() != null ? e.getMessage() : "Exceção sem mensagem");
         }
 
         return resultado.toString();
     }
+
+
 
 
     // POST: cadastra um novo motorista

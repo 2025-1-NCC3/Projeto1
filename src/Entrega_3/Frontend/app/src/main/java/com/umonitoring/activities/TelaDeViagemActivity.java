@@ -27,13 +27,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.umonitoring.utils.VoiceRecognitionService;
-
-
+import com.umonitoring.components.BoxChamadaView;
+import com.umonitoring.components.BoxEmbarqueView;
+import com.umonitoring.controllers.ViagemController;
+import com.umonitoring.models.Viagem;
+import com.umonitoring.services.VoiceRecognitionService;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -60,39 +61,39 @@ public class TelaDeViagemActivity extends AppCompatActivity {
     private GeoPoint destinoFinal;
     private GeoPoint localFake;
 
-    private String enderecoEmbarqueStr = "Rua Maria Paula, 122 - Bela Vista, São Paulo - SP";
-    private String enderecoDestinoStr = "Praça João Mendes, 150 - Sé, São Paulo - SP";
+    private String enderecoEmbarqueStr = "Avenida Liberdade, 532, São Paulo";
+    private String enderecoDestinoStr = "Avenida Liberdade, 532, São Paulo";
 
     private static final int PERMISSAO_MICROFONE = 1;
     private static final int PERMISSAO_LOCALIZACAO = 2;
 
     private TextView cabecalhoCorridaAtiva;
-    private LinearLayout boxChamadaDeCorrida;
-    private TextView tempoAtePassageiro, enderecoEmbarque, tempoAteDestino, enderecoDestino;
-    private Button btnAceitarCorrida;
-
-    private LinearLayout boxDeEmbarque;
-    private TextView textNomePassageiro, textEnderecoDesembarque, textTempoDeCorrida;
-    private Button btnInciarCorrida;
-
-
     private LinearLayout rodapeCorridaAtiva;
-    private TextView tempoRestante, distanciaRestante, textView7_destino;
-    private ImageView imageViewNavegacao, btnSeguranca, btnConfiguracao;
-
+    private TextView tempoRestante, distanciaRestante;
+    private ImageView btnSeguranca, btnConfiguracao;
     private LinearLayout boxSetting;
     private TextView StatusProtocoloDeSeguranca;
     private Button btnEncerrarCorrida;
 
+    private ViagemController viagemController;
+    private BoxChamadaView boxChamada;
+    private BoxEmbarqueView boxEmbarque;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        Intent intent = getIntent();
+        String partida = intent.getStringExtra("partida");
+        String chegada = intent.getStringExtra("chegada");
 
+        if (partida != null && chegada != null) {
+            enderecoEmbarqueStr = partida;
+            enderecoDestinoStr = chegada;
+        }
+
+        EdgeToEdge.enable(this);
         Configuration.getInstance().load(getApplicationContext(),
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-
         setContentView(R.layout.activity_tela_de_viagem);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -101,32 +102,17 @@ public class TelaDeViagemActivity extends AppCompatActivity {
             return insets;
         });
 
-
         cabecalhoCorridaAtiva = findViewById(R.id.cabecalhoCorridaAtiva);
-        boxChamadaDeCorrida = findViewById(R.id.boxChamadaDeCorrida);
-        tempoAtePassageiro = findViewById(R.id.tempoAtePassageiro);
-        enderecoEmbarque = findViewById(R.id.enderecoEmbargue);
-        tempoAteDestino = findViewById(R.id.tempoAteDestino);
-        enderecoDestino = findViewById(R.id.enderecoDestino);
-        btnAceitarCorrida = findViewById(R.id.btnAceitarCorrida);
-
-        boxDeEmbarque = findViewById(R.id.boxDeEmbarque);
-        textNomePassageiro = findViewById(R.id.textNomePassageiro);
-        textEnderecoDesembarque = findViewById(R.id.textEnderecoDesembarque);
-        textTempoDeCorrida = findViewById(R.id.textTempoDeCorrida);
-        btnInciarCorrida = findViewById(R.id.btnInciarCorrida);
-
-
         rodapeCorridaAtiva = findViewById(R.id.rodapeCorridaAtiva);
         tempoRestante = findViewById(R.id.tempoRestante);
         distanciaRestante = findViewById(R.id.distanciaRestante);
-
         btnSeguranca = findViewById(R.id.btnSeguranca);
         btnConfiguracao = findViewById(R.id.btnConfiguracao);
-
         boxSetting = findViewById(R.id.boxSetting);
         StatusProtocoloDeSeguranca = findViewById(R.id.StatusProtocoloDeSeguranca);
         btnEncerrarCorrida = findViewById(R.id.btnEncerrarCorrida);
+        boxChamada = findViewById(R.id.boxChamada);
+        boxEmbarque = findViewById(R.id.boxEmbarque);
 
         map = findViewById(R.id.map);
         map.setMultiTouchControls(true);
@@ -135,13 +121,6 @@ public class TelaDeViagemActivity extends AppCompatActivity {
 
         localFake = geocodificarEndereco("Avenida Liberdade, 532, São Paulo");
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        boxChamadaDeCorrida.setVisibility(View.VISIBLE);
         cabecalhoCorridaAtiva.setVisibility(View.INVISIBLE);
         rodapeCorridaAtiva.setVisibility(View.GONE);
 
@@ -154,66 +133,7 @@ public class TelaDeViagemActivity extends AppCompatActivity {
             configurarLocalizacao();
         }
 
-        btnAceitarCorrida.setOnClickListener(view -> {
-            if (!corridaEmAndamento) {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.RECORD_AUDIO},
-                            PERMISSAO_MICROFONE);
-                } else {
-                    iniciarServicoDeVoz();
-
-                    GeoPoint origem = localFake;
-                    if (origem != null) {
-                        GeoPoint pontoDeEmbarque = geocodificarEndereco(enderecoEmbarqueStr);
-                        GeoPoint destinoFinalGeo = geocodificarEndereco(enderecoDestinoStr);
-
-                        // Início da corrida: indo buscar passageiro
-                        boxChamadaDeCorrida.setVisibility(View.GONE);
-                        cabecalhoCorridaAtiva.setVisibility(View.VISIBLE);
-                        rodapeCorridaAtiva.setVisibility(View.VISIBLE);
-                        cabecalhoCorridaAtiva.setText("Indo buscar passageiro...");
-                        boxSetting.setVisibility(View.GONE);
-                        boxDeEmbarque.setVisibility(View.GONE); // <- garante que o box esteja oculto
-
-                        corridaEmAndamento = true;
-
-                        simularCorrida(origem, pontoDeEmbarque, () -> {
-                            // Chegou no embarque
-                            cabecalhoCorridaAtiva.setVisibility(View.GONE);
-                            rodapeCorridaAtiva.setVisibility(View.GONE);
-                            boxDeEmbarque.setVisibility(View.VISIBLE);
-
-                            // Preenche informações do embarque
-                            textNomePassageiro.setText("Fulana de Tal"); // pode vir do backend no futuro
-                            textEnderecoDesembarque.setText(enderecoDestinoStr);
-                            textTempoDeCorrida.setText(estimarTempo(calcularDistanciaKm(pontoDeEmbarque, destinoFinalGeo)));
-
-                            // Configura botão para iniciar corrida ao destino
-                            btnInciarCorrida.setOnClickListener(v -> {
-                                boxDeEmbarque.setVisibility(View.GONE);
-                                cabecalhoCorridaAtiva.setVisibility(View.VISIBLE);
-                                rodapeCorridaAtiva.setVisibility(View.VISIBLE);
-                                cabecalhoCorridaAtiva.setText("Rumo ao destino final...");
-
-                                simularCorrida(pontoDeEmbarque, destinoFinalGeo, () -> {
-                                    boxSetting.setVisibility(View.VISIBLE);
-                                });
-                            });
-                        });
-
-                    } else {
-                        Toast.makeText(this, "Localização ainda não disponível", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-
-        rodapeCorridaAtiva.setOnClickListener(v -> {
-            boxSetting.setVisibility(View.VISIBLE);
-        });
+        rodapeCorridaAtiva.setOnClickListener(v -> boxSetting.setVisibility(View.VISIBLE));
 
         btnEncerrarCorrida.setOnClickListener(v -> {
             corridaEmAndamento = false;
@@ -224,21 +144,165 @@ public class TelaDeViagemActivity extends AppCompatActivity {
                 map.getOverlays().remove(corridaMarker);
                 corridaMarker = null;
             }
-            if (rotaCorrida != null) {
-                map.getOverlays().remove(rotaCorrida);
-                rotaCorrida = null;
+
+            // Remove todas as rotas (polylines) do mapa
+            for (int i = map.getOverlays().size() - 1; i >= 0; i--) {
+                if (map.getOverlays().get(i) instanceof Polyline) {
+                    map.getOverlays().remove(i);
+                }
             }
+            rotaCorrida = null;
 
             rodapeCorridaAtiva.setVisibility(View.GONE);
             cabecalhoCorridaAtiva.setVisibility(View.INVISIBLE);
-            boxChamadaDeCorrida.setVisibility(View.VISIBLE);
             boxSetting.setVisibility(View.GONE);
 
             if (localFake != null) {
                 map.getController().setCenter(localFake);
             }
 
-            //Toast.makeText(this, "Corrida encerrada com sucesso.", Toast.LENGTH_SHORT).show();
+            // Reiniciar fluxo
+            viagemController.carregarViagens();
+            boxChamada.setVisibility(View.VISIBLE);
+
+            // Delay para garantir que a rota antiga foi removida antes de desenhar a nova
+            new android.os.Handler().postDelayed(() -> {
+                Viagem novaViagem = viagemController.getViagemAtual();
+                if (novaViagem != null) {
+                    atualizarRotaPreviaNoMapa(
+                            novaViagem.getEnderecoDePartida(),
+                            novaViagem.getEnderecoDeChegada()
+                    );
+                }
+            }, 300);
+        });
+
+
+
+
+        viagemController = new ViagemController(this, boxChamada);
+        viagemController.carregarViagens();
+
+        boxChamada.setOnChamadaActionListener(new BoxChamadaView.OnChamadaActionListener() {
+            @Override
+            public void onAceitarCorrida(String partida, String destino, String nomePassageiro) {
+                boxChamada.setVisibility(View.GONE);
+                Viagem viagem = viagemController.getViagemAtual();
+                nomePassageiro = "Passageiro";
+
+                if (viagem != null && viagem.getPassageiro() != null) {
+                    nomePassageiro = viagem.getPassageiro().getNome();
+                }
+
+                iniciarSimulacaoParaEmbarque(partida, destino, nomePassageiro);
+
+            }
+
+            @Override
+            public void onRecusarCorrida() {
+                viagemController.avancarViagem();
+
+                Viagem viagem = viagemController.getViagemAtual();
+                if (viagem != null) {
+                    String partida = viagem.getEnderecoDePartida();
+                    String destino = viagem.getEnderecoDeChegada();
+
+                    GeoPoint geoOrigem = localFake;  // ponto fixo do motorista
+                    GeoPoint geoPartida = geocodificarEndereco(partida);
+                    GeoPoint geoDestino = geocodificarEndereco(destino);
+
+                    String tempoAtePassageiro = "N/D";
+                    String tempoEstimadoViagem = "N/D";
+
+                    if (geoOrigem != null && geoPartida != null) {
+                        double dist = calcularDistanciaKm(geoOrigem, geoPartida);
+                        tempoAtePassageiro = estimarTempo(dist);
+                    }
+
+                    if (geoPartida != null && geoDestino != null) {
+                        double dist = calcularDistanciaKm(geoPartida, geoDestino);
+                        tempoEstimadoViagem = estimarTempo(dist);
+                    }
+
+                    boxChamada.setDados(partida, tempoAtePassageiro, destino, tempoEstimadoViagem);
+                    atualizarRotaPreviaNoMapa(partida, destino);
+                }
+            }
+
+
+
+        });
+
+        boxEmbarque.setOnEmbarqueActionListener(() -> {
+            boxEmbarque.setVisibility(View.GONE);
+            iniciarCorrida("Passageiro", enderecoEmbarqueStr, enderecoDestinoStr);
+        });
+
+        atualizarRotaPreviaNoMapa(enderecoEmbarqueStr, enderecoDestinoStr);
+
+    }
+
+    private void atualizarRotaPreviaNoMapa(String partida, String destino) {
+        GeoPoint origem = localFake;  // ou a localização real, se disponível
+        GeoPoint embarque = geocodificarEndereco(partida);
+        GeoPoint chegada = geocodificarEndereco(destino);
+
+        if (embarque == null || chegada == null) return;
+
+        if (rotaCorrida != null) {
+            map.getOverlays().remove(rotaCorrida);
+        }
+
+        rotaCorrida = new Polyline();
+        rotaCorrida.setWidth(5f);
+        rotaCorrida.setColor(0xAA555555); // tom mais neutro
+        rotaCorrida.setPoints(Arrays.asList(origem, embarque, chegada));
+        map.getOverlays().add(rotaCorrida);
+        map.invalidate();
+    }
+
+
+    private void iniciarSimulacaoParaEmbarque(String partida, String destino, String nomePassageiro) {
+        enderecoEmbarqueStr = partida;
+        enderecoDestinoStr = destino;
+
+        iniciarServicoDeVoz();
+
+        GeoPoint origem = localFake;
+        GeoPoint pontoDeEmbarque = geocodificarEndereco(partida);
+        GeoPoint destinoGeo = geocodificarEndereco(destino);
+
+        cabecalhoCorridaAtiva.setText("Indo buscar passageiro...");
+        cabecalhoCorridaAtiva.setVisibility(View.VISIBLE);
+        rodapeCorridaAtiva.setVisibility(View.VISIBLE);
+        boxSetting.setVisibility(View.GONE);
+        corridaEmAndamento = true;
+
+        simularCorrida(origem, pontoDeEmbarque, () -> {
+            cabecalhoCorridaAtiva.setVisibility(View.GONE);
+            rodapeCorridaAtiva.setVisibility(View.GONE);
+            boxEmbarque.setVisibility(View.VISIBLE);
+
+            double distDestino = calcularDistanciaKm(pontoDeEmbarque, destinoGeo);
+            boxEmbarque.setDados(nomePassageiro, destino, estimarTempo(distDestino));
+        });
+    }
+
+    public void iniciarCorrida(String nomePassageiro, String partida, String chegada) {
+        enderecoEmbarqueStr = partida;
+        enderecoDestinoStr = chegada;
+
+        GeoPoint pontoDeEmbarque = geocodificarEndereco(partida);
+        GeoPoint destinoFinalGeo = geocodificarEndereco(chegada);
+
+        cabecalhoCorridaAtiva.setText("Rumo ao destino final...");
+        cabecalhoCorridaAtiva.setVisibility(View.VISIBLE);
+        rodapeCorridaAtiva.setVisibility(View.VISIBLE);
+        boxSetting.setVisibility(View.GONE);
+        corridaEmAndamento = true;
+
+        simularCorrida(pontoDeEmbarque, destinoFinalGeo, () -> {
+            boxSetting.setVisibility(View.VISIBLE);
         });
     }
 
@@ -246,7 +310,6 @@ public class TelaDeViagemActivity extends AppCompatActivity {
         locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), map);
         locationOverlay.enableMyLocation();
         map.getOverlays().add(locationOverlay);
-
         map.getController().setCenter(localFake);
 
         origemMotorista = localFake;
@@ -256,13 +319,8 @@ public class TelaDeViagemActivity extends AppCompatActivity {
         double distAtePassageiro = calcularDistanciaKm(origemMotorista, localPassageiro);
         double distAteDestino = calcularDistanciaKm(localPassageiro, destinoFinal);
 
-        tempoAtePassageiro.setText(estimarTempo(distAtePassageiro));
-        tempoAteDestino.setText(estimarTempo(distAteDestino));
         tempoRestante.setText(estimarTempo(distAteDestino));
         distanciaRestante.setText(String.format("%.1f km", distAteDestino));
-
-        enderecoEmbarque.setText(enderecoEmbarqueStr);
-        enderecoDestino.setText(enderecoDestinoStr);
     }
 
     private GeoPoint geocodificarEndereco(String endereco) {
@@ -328,7 +386,6 @@ public class TelaDeViagemActivity extends AppCompatActivity {
                 if (aoFinalizar != null) {
                     aoFinalizar.run();
                 } else {
-                    //Toast.makeText(this, "Corrida finalizada visualmente. Aguarde encerramento manual.", Toast.LENGTH_SHORT).show();
                     boxSetting.setVisibility(View.VISIBLE);
                 }
             });
@@ -360,7 +417,6 @@ public class TelaDeViagemActivity extends AppCompatActivity {
     }
 
     private void iniciarServicoDeVoz() {
-        //Toast.makeText(this, "Iniciando reconhecimento de voz...", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, VoiceRecognitionService.class);
         startService(intent);
     }

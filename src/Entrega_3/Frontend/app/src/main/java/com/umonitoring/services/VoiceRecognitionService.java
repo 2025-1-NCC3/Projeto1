@@ -1,4 +1,4 @@
-package com.umonitoring.utils;
+package com.umonitoring.services;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,7 +16,6 @@ import androidx.core.app.NotificationCompat;
 import com.umonitoring.R;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class VoiceRecognitionService extends Service {
 

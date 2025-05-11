@@ -1,5 +1,6 @@
 package com.umonitoring.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -67,17 +68,29 @@ public class MainActivity extends AppCompatActivity {
             Viagem viagem = viagensDisponiveis.get(indexAtual);
             viagem.setStatus("em andamento");
 
-            Motorista motorista = Motorista.buscarMotoristaPorId(motoristaAtualId);
-            if (motorista == null) {
-                Toast.makeText(getApplicationContext(), "Motorista não encontrado!", Toast.LENGTH_SHORT).show();
-                return; // Impede o restante do código de executar
-            }
+            new Thread(() -> {
+                Motorista motorista = Motorista.buscarMotoristaPorId(motoristaAtualId);
 
-            viagem.setMotorista(motorista);
+                runOnUiThread(() -> {
+                    if (motorista == null) {
+                        Toast.makeText(getApplicationContext(), "Motorista não encontrado!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-            viagem.atualizar(viagem.getId());
-            iniciarCorridaComViagemAceita(viagem);
+                    viagem.setMotorista(motorista);
+                    viagem.atualizar(viagem.getId());
+
+                    // Envia os dados da viagem para a TelaDeViagemActivity
+                    Intent intent = new Intent(MainActivity.this, TelaDeViagemActivity.class);
+                    intent.putExtra("partida", viagem.getEnderecoDePartida());
+                    intent.putExtra("chegada", viagem.getEnderecoDeChegada());
+                    intent.putExtra("nomePassageiro", "Passageiro ID: " + viagem.getPassageiro().getId());
+                    startActivity(intent);
+                });
+            }).start();
         });
+
+
 
 
         btnRecusarCorrida.setOnClickListener(v -> {

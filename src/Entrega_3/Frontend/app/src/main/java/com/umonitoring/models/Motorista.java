@@ -81,11 +81,22 @@ public class Motorista extends Usuario {
 
     public static Motorista buscarMotoristaPorId(int id) {
         String resposta = MotoristaAPI.buscarPorId(id);
-        Log.d("BUSCAR_MOTORISTA", "Resposta bruta da API: " + resposta); // Adicione isso aqui
+        Log.d("BUSCAR_MOTORISTA", "Resposta bruta da API: " + resposta);
+
+        if (resposta.startsWith("Erro")) {
+            Log.e("BUSCAR_MOTORISTA", "Erro detectado: " + resposta);
+            return null;
+        }
 
         try {
             JSONObject obj = new JSONObject(resposta);
-            JSONObject json = obj.getJSONObject("motoristas");
+            JSONObject json = obj.getJSONObject("motoristas"); // Chave no plural mesmo, como está no seu JSON
+
+            // LOGS de debug para cada campo criptografado
+            Log.d("BUSCAR_MOTORISTA", "Nome criptografado: " + json.getString("nome"));
+            Log.d("BUSCAR_MOTORISTA", "Sobrenome criptografado: " + json.getString("sobrenome"));
+            Log.d("BUSCAR_MOTORISTA", "Telefone criptografado: " + json.getString("telefone"));
+            // (adicione mais se quiser, opcional)
 
             return new Motorista(
                     json.getInt("id"),
@@ -103,10 +114,12 @@ public class Motorista extends Usuario {
                     Criptografia.descriptografar(json.getString("frase_de_seguranca_3"))
             );
         } catch (Exception e) {
-            Log.e("BUSCAR_MOTORISTA", "Erro ao construir objeto Motorista: " + e.getMessage());
+            Log.e("BUSCAR_MOTORISTA", "Erro ao construir objeto Motorista: ", e);
             return null;
         }
     }
+
+
 
 
 
