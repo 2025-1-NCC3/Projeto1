@@ -1,5 +1,9 @@
 package com.umonitoring.activities;
 
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -16,8 +20,11 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,6 +56,7 @@ import android.preference.PreferenceManager;
 
 public class TelaDeViagemActivity extends AppCompatActivity {
 
+    private int idMotorista;
     private MapView map;
     private MyLocationNewOverlay locationOverlay;
     private Marker corridaMarker;
@@ -79,6 +87,12 @@ public class TelaDeViagemActivity extends AppCompatActivity {
     private BoxChamadaView boxChamada;
     private BoxEmbarqueView boxEmbarque;
 
+    private LinearLayout overlayProtocolo;
+
+    private BroadcastReceiver protocoloReceiver;
+
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +104,7 @@ public class TelaDeViagemActivity extends AppCompatActivity {
             enderecoEmbarqueStr = partida;
             enderecoDestinoStr = chegada;
         }
+
 
         EdgeToEdge.enable(this);
         Configuration.getInstance().load(getApplicationContext(),
@@ -114,6 +129,10 @@ public class TelaDeViagemActivity extends AppCompatActivity {
         boxChamada = findViewById(R.id.boxChamada);
         boxEmbarque = findViewById(R.id.boxEmbarque);
 
+        View includedOverlay = findViewById(R.id.overlayProtocolo);
+        overlayProtocolo = includedOverlay.findViewById(R.id.overlayProtocolo);
+
+
         map = findViewById(R.id.map);
         map.setMultiTouchControls(true);
         IMapController mapController = map.getController();
@@ -134,6 +153,9 @@ public class TelaDeViagemActivity extends AppCompatActivity {
         }
 
         rodapeCorridaAtiva.setOnClickListener(v -> boxSetting.setVisibility(View.VISIBLE));
+
+        btnSeguranca.setOnClickListener(v -> exibirOverlayProtocolo());
+
 
         btnEncerrarCorrida.setOnClickListener(v -> {
             corridaEmAndamento = false;
@@ -176,8 +198,6 @@ public class TelaDeViagemActivity extends AppCompatActivity {
                 }
             }, 300);
         });
-
-
 
 
         viagemController = new ViagemController(this, boxChamada);
@@ -241,6 +261,18 @@ public class TelaDeViagemActivity extends AppCompatActivity {
         atualizarRotaPreviaNoMapa(enderecoEmbarqueStr, enderecoDestinoStr);
 
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent); // Atualiza o intent atual da Activity
+
+        if ("ativar_protocolo".equals(intent.getAction())) {
+            Log.d("PROTOCOLO", "🔔 Protocolo recebido via intent!");
+            exibirOverlayProtocolo();
+        }
+    }
+
 
     private void atualizarRotaPreviaNoMapa(String partida, String destino) {
         GeoPoint origem = localFake;  // ou a localização real, se disponível
@@ -416,6 +448,18 @@ public class TelaDeViagemActivity extends AppCompatActivity {
         }
     }
 
+    private void exibirOverlayProtocolo() {
+        Log.d("OVERLAY", "🛡️ exibirOverlayProtocolo chamado");
+        overlayProtocolo.setVisibility(View.VISIBLE);
+        overlayProtocolo.bringToFront();
+
+        new Handler().postDelayed(() -> {
+            overlayProtocolo.setVisibility(View.INVISIBLE);
+        }, 2000);
+    }
+
+
+
     private void iniciarServicoDeVoz() {
         Intent intent = new Intent(this, VoiceRecognitionService.class);
         startService(intent);
@@ -458,4 +502,11 @@ public class TelaDeViagemActivity extends AppCompatActivity {
         super.onPause();
         map.onPause();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
 }

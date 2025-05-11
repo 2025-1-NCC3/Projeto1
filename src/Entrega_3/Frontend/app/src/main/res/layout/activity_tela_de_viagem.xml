@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".activities.TelaDeViagemActivity">
 
+    <include
+        android:id="@+id/overlayProtocolo"
+        layout="@layout/view_protocolo_ativado"
+        android:visibility="invisible" />
+
+
     <!-- Mapa no fundo -->
 
     <org.osmdroid.views.MapView
@@ -150,5 +156,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:visibility="gone" />
+
+
+
 
 </FrameLayout>
