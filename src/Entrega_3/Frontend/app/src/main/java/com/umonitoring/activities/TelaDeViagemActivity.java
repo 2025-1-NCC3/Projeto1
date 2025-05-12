@@ -461,9 +461,17 @@ public class TelaDeViagemActivity extends AppCompatActivity {
 
 
     private void iniciarServicoDeVoz() {
-        Intent intent = new Intent(this, VoiceRecognitionService.class);
-        startService(intent);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    PERMISSAO_MICROFONE);
+        } else {
+            Intent intent = new Intent(this, VoiceRecognitionService.class);
+            startService(intent);
+        }
     }
+
 
     private void pararServicoDeVoz() {
         Intent intent = new Intent(this, VoiceRecognitionService.class);

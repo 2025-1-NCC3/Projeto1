@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -103,8 +104,18 @@ public class VoiceRecognitionService extends Service {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_LOW);
 
-        startForeground(1, notificacao.build());
+        // 📌 Aqui está a correção importante:
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) { // API 31+
+            startForeground(
+                    1,
+                    notificacao.build(),
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+            );
+        } else {
+            startForeground(1, notificacao.build());
+        }
     }
+
 
     private void reiniciarReconhecimento() {
         if (speechRecognizer != null) {
