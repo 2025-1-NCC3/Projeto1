@@ -458,8 +458,7 @@ public class TelaDeViagemActivity extends AppCompatActivity {
         }, 2000);
     }
 
-
-
+    
     private void iniciarServicoDeVoz() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
