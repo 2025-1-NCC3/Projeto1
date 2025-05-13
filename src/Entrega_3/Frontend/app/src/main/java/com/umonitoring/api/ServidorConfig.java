@@ -18,6 +18,8 @@ public class ServidorConfig {
             "https://y7yncg-3000.csb.app",
             "https://9dc78641-1bd1-45c8-90c2-5ef78eb75b05-00-1liaz9tknfzel.spock.replit.dev/"
 
+          /* Replit da Carol (Teste de Histórico de Viagens)
+          "https://8626f8c1-3045-4913-b475-794573ecd7c6-00-371v1klml1m31.picard.replit.dev/"*/
     );
 
 

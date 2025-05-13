@@ -32,7 +32,12 @@
             android:name=".activities.TelaDeViagemActivity"
             android:exported="false"
             android:launchMode="singleTop" />
-
+        <activity
+            android:name=".activities.ListaViagemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.DetalhesViagemActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">

@@ -5,4 +5,23 @@
     <color name="TextColorGrey">#A0ABABAB</color>
     <color name="ButtonColor1">#2160ED</color>
 
+    <!--String Tela 1 - item_viagem.xml-->
+
+    <string name="BtnConsultarDetalhes">Consultar</string>
+    <string name="textEnderecoDestino">Rua Liberdade</string>
+    <string name="textDataHoraViagem">2024-04-01 08:00</string>
+
+    <!--Colors Tela 1 - item_viagem-->
+
+    <color name="CorFundoDeTela">#2B2B2B</color>
+    <color name="CorBtnConsultarDetalhes">#515151</color>
+    <color name="Branco">#FFFFFF</color>
+    <color name="Preto">#000000</color>
+
+    <!--String Tela 2 - activity_detalhes_viagem.xml-->
+    <string name="TituloDaTela">Histórico de viagem</string>
+    <string name="CampoPassageiro">Passageiro:</string>
+    <string name="NomePassageiro">Caroliny Rossi</string>
+
+
 </resources>

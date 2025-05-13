@@ -112,10 +112,12 @@ public class Viagem {
         List<Viagem> lista = new ArrayList<>();
 
         try {
-            JSONArray array = new JSONArray(resposta);
+            JSONObject obj = new JSONObject(resposta);
+            JSONArray array = obj.getJSONArray("viagens");
+
             for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                Viagem v = construirViagem(obj);
+                JSONObject json = array.getJSONObject(i);
+                Viagem v = construirViagem(json);
                 lista.add(v);
             }
         } catch (Exception e) {
