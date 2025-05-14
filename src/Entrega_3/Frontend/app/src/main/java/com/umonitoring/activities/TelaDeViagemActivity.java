@@ -37,6 +37,7 @@ import java.util.List;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.umonitoring.components.BottomNavHelper;
 import com.umonitoring.components.BoxChamadaView;
 import com.umonitoring.components.BoxEmbarqueView;
 import com.umonitoring.controllers.ViagemController;
@@ -104,7 +105,6 @@ public class TelaDeViagemActivity extends AppCompatActivity {
             enderecoEmbarqueStr = partida;
             enderecoDestinoStr = chegada;
         }
-
 
         EdgeToEdge.enable(this);
         Configuration.getInstance().load(getApplicationContext(),
@@ -260,6 +260,7 @@ public class TelaDeViagemActivity extends AppCompatActivity {
 
         atualizarRotaPreviaNoMapa(enderecoEmbarqueStr, enderecoDestinoStr);
 
+        BottomNavHelper.setupBottomNavigation(this, R.id.nav_home);
     }
 
     @Override

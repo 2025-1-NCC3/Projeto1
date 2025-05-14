@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umonitoring.R;
+import com.umonitoring.components.BottomNavHelper;
 import com.umonitoring.models.Motorista;
 import com.umonitoring.models.Viagem;
 import com.umonitoring.utils.ViagemAdapter;
@@ -63,5 +64,6 @@ public class ListaViagemActivity extends AppCompatActivity {
                 Log.e("MainActivity", "Erro ao carregar viagens: " + e.getMessage(), e);
             }
         });
+        BottomNavHelper.setupBottomNavigation(this, R.id.nav_home);
     }
 }

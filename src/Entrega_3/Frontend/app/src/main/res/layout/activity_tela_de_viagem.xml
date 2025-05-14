@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,24 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".activities.TelaDeViagemActivity">
 
-    <include
-        android:id="@+id/overlayProtocolo"
-        layout="@layout/view_protocolo_ativado"
-        android:visibility="invisible" />
-
-
     <!-- Mapa no fundo -->
-
     <org.osmdroid.views.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Layout no topo -->
+    <!-- Cabeçalho -->
     <TextView
         android:id="@+id/cabecalhoCorridaAtiva"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@color/Background"
         android:gravity="center"
         android:padding="20sp"
@@ -34,19 +28,27 @@
         android:textStyle="bold"
         android:visibility="visible" />
 
+    <!-- Overlay de protocolo -->
+    <include
+        android:id="@+id/overlayProtocolo"
+        layout="@layout/view_protocolo_ativado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 
+    <!-- Rodapé da corrida -->
     <LinearLayout
         android:id="@+id/rodapeCorridaAtiva"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_above="@id/bottom_navigation"
         android:background="@color/Background"
         android:orientation="vertical"
         android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="10sp"
@@ -54,10 +56,9 @@
 
             <ImageView
                 android:id="@+id/btnSeguranca"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/security_24px" />
 
@@ -69,7 +70,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -77,7 +78,6 @@
                         android:id="@+id/tempoRestante"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="20 min"
                         android:textColor="@color/TextColorWHite"
                         android:textSize="24sp"
@@ -88,36 +88,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10sp"
-                        android:layout_weight="1"
                         app:srcCompat="@drawable/navigation_24px" />
 
                     <TextView
                         android:id="@+id/distanciaRestante"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="50 km"
                         android:textColor="@color/TextColorWHite"
                         android:textSize="24sp" />
                 </LinearLayout>
-
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/btnConfiguracao"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/menu_24px" />
-
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/boxSetting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible">
 
@@ -140,24 +135,28 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
         </LinearLayout>
-
     </LinearLayout>
 
+    <!-- BoxChamada e BoxEmbarque acima do menu -->
     <com.umonitoring.components.BoxChamadaView
         android:id="@+id/boxChamada"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_above="@id/bottom_navigation"
         android:visibility="visible" />
 
     <com.umonitoring.components.BoxEmbarqueView
         android:id="@+id/boxEmbarque"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_above="@id/bottom_navigation"
         android:visibility="gone" />
 
-
-
-
-</FrameLayout>
+    <!-- Menu inferior fixado corretamente no fundo da tela -->
+    <include
+        android:id="@+id/bottom_navigation"
+        layout="@layout/menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

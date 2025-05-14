@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:padding="24dp"
+    android:background="#1a1a1a"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialogTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sair da Conta"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#9B1616" />
+
+    <TextView
+        android:id="@+id/dialogMensagem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Deseja realmente sair da conta?"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/botaoNao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Não"
+            android:textColor="#A81D14"
+            android:backgroundTint="#2b2b2b"/>
+
+        <Button
+            android:id="@+id/botaoSim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sim"
+            android:textColor="#349938"
+            android:layout_marginStart="12dp"
+            android:backgroundTint="#2b2b2b"/>
+    </LinearLayout>
+</LinearLayout>

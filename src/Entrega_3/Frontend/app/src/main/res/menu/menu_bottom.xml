@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_info"
+        android:icon="@drawable/icon_hist"
+        android:title="Atividade"
+        android:textColor="#FFFFFF" />
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/icon_home"
+        android:title="Pagina Inicial"
+        android:textColor="#FFFFFF" />
+    <item
+        android:id="@+id/nav_config"
+        android:icon="@drawable/icon_person"
+        android:title="Conta"
+        android:textColor="#FFFFFF" />
+</menu>

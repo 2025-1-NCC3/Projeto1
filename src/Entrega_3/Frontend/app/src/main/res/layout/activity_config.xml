@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2b2b2b">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/customToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2b2b2b"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginVertical="15dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/botaoVoltar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="Voltar"
+            android:src="@drawable/arrow_back" />
+
+        <TextView
+            android:id="@+id/tituloToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/botaoVoltar"
+            android:layout_marginStart="15dp"
+            android:text="Configurações de Segurança"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <!-- Conteúdo principal -->
+    <ScrollView
+        android:id="@+id/conteudoPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/customToolbar"
+        android:layout_above="@id/menu_inferior"
+        android:background="#2b2b2b">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp">
+
+            <!-- Switch -->
+            <Switch
+                android:id="@+id/switchSeguranca"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:checked="true"
+                android:text="Habilitar protocolo de segurança"
+                android:textColor="#FFFFFF"
+                android:thumbTint="#4CAF50"
+                android:trackTint="#A5D6A7" />
+
+            <TextView
+                android:id="@+id/tituloConfig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Configurar chaves de segurança"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Chave 1 -->
+            <LinearLayout
+                android:id="@+id/chave1Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/chave1Header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/chave1Titulo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Chave 1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/setaChave1"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Seta expandir"
+                        android:rotation="0"
+                        android:src="@drawable/arrow_forward" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textoInfoChave1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="Chave primária."
+                    android:textColor="#BBBBBB"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/editChave1"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Ex: Não compartilhe sua senha"
+                    android:inputType="text"
+                    android:paddingRight="10dp"
+                    android:textColor="#5e5e5e"
+                    android:textColorHint="#4e4e4e"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:background="#5c5c5c" />
+            </LinearLayout>
+
+            <!-- Chave 2 -->
+            <LinearLayout
+                android:id="@+id/chave2Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/chave2Header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/chave2Titulo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Chave 2"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/setaChave2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Seta expandir"
+                        android:rotation="0"
+                        android:src="@drawable/arrow_forward" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textoInfoChave2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="Chave secundária."
+                    android:textColor="#BBBBBB"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/editChave2"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Ex: Jamais confie no pombo"
+                    android:inputType="text"
+                    android:padding="5dp"
+                    android:textColor="#5e5e5e"
+                    android:textColorHint="#4e4e4e"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:background="#5c5c5c" />
+            </LinearLayout>
+
+            <!-- Chave 3 -->
+            <LinearLayout
+                android:id="@+id/chave3Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/chave3Header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/chave3Titulo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Chave 3"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/setaChave3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Seta expandir"
+                        android:rotation="0"
+                        android:src="@drawable/arrow_forward" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textoInfoChave3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="Chave adicional."
+                    android:textColor="#BBBBBB"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/editChave3"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Ex: Cuidado com a banana"
+                    android:inputType="text"
+                    android:padding="5dp"
+                    android:textColor="#5e5e5e"
+                    android:textColorHint="#4e4e4e"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:background="#5c5c5c" />
+            </LinearLayout>
+
+            <!-- Botão Atualizar -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/botaoAtualizar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/botao_background"
+                android:padding="12dp"
+                android:text="Atualizar"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Menu inferior fixado -->
+    <include
+        android:id="@+id/menu_inferior"
+        layout="@layout/menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
