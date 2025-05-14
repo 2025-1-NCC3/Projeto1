@@ -21,6 +21,7 @@ public class InfoPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_page);
 
+
         botaoVoltar = findViewById(R.id.botaoVoltar);
         imageRight = findViewById(R.id.imageRight);
         botaoSeguranca = findViewById(R.id.botaoSeguranca);
@@ -30,21 +31,28 @@ public class InfoPage extends AppCompatActivity {
         botaoVoltar.setOnClickListener(v -> finish());
 
         botaoSeguranca.setOnClickListener(v -> {
+            int idUsuario = getIntent().getIntExtra("idUsuario", -1); // recupera da InfoPage se tiver
             Intent intent = new Intent(InfoPage.this, ConfigActivity.class);
+            intent.putExtra("idUsuario", idUsuario); // passa adiante
             startActivity(intent);
         });
 
         botaoPerfil.setOnClickListener(v -> {
+            int idUsuario = getIntent().getIntExtra("idUsuario", -1); // recupera da InfoPage se tiver
             Intent intent = new Intent(InfoPage.this, ProfilePage.class);
+            intent.putExtra("idUsuario", idUsuario); // passa adiante
             startActivity(intent);
         });
 
         botaoHistorico.setOnClickListener(v -> {
+            int idUsuario = getIntent().getIntExtra("idUsuario", -1); // recupera da InfoPage se tiver
             Intent intent = new Intent(InfoPage.this, ListaViagemActivity.class);
+            intent.putExtra("idUsuario", idUsuario); // passa adiante
             startActivity(intent);
         });
 
         // Menu inferior
         BottomNavHelper.setupBottomNavigation(this, R.id.nav_config);
+
     }
 }

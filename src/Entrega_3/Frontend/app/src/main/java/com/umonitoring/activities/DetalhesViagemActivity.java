@@ -29,7 +29,7 @@ public class DetalhesViagemActivity extends AppCompatActivity {
             return insets;
         });
 
-       textNomePassageiro = findViewById(R.id.textNomePassageiro);
+        textNomePassageiro = findViewById(R.id.textNomePassageiro);
        //textidViagem = findViewById(R.id.textidViagem);
        textDataHoraPartida = findViewById(R.id.textDataHoraPartida);
        textEnderecoPartida = findViewById(R.id.textEnderecoPartida);

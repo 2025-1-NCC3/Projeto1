@@ -39,7 +39,6 @@ public class ConfigActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
-        carregarDadosUsuario();
 
         // Botão voltar
         botaoVoltar = findViewById(R.id.botaoVoltar);
@@ -144,8 +143,10 @@ public class ConfigActivity extends AppCompatActivity {
                 Motorista debugMotorista = new Motorista(0, "", "", "", "", "", "", "", "", "", "", "", "");
                 List<Motorista> motoristas = debugMotorista.listarMotoristas();
 
+                int idUsuario = getIntent().getIntExtra("idUsuario", -1);
+
                 if (motoristas != null && !motoristas.isEmpty()) {
-                    final Motorista motorista = motoristas.get(0);
+                    final Motorista motorista = motoristas.get(idUsuario);
 
                     // Atualiza apenas os campos preenchidos
                     if (!frase1.isEmpty()) motorista.setFrase1(frase1);
@@ -177,6 +178,9 @@ public class ConfigActivity extends AppCompatActivity {
 
         // Menu inferior
         BottomNavHelper.setupBottomNavigation(this, R.id.nav_config);
+
+        carregarDadosUsuario();
+
     }
 
     private void carregarDadosUsuario() {
@@ -184,21 +188,28 @@ public class ConfigActivity extends AppCompatActivity {
             Motorista debugMotorista = new Motorista(0, "", "", "", "", "", "", "", "", "", "", "", "");
             List<Motorista> motoristas = debugMotorista.listarMotoristas();
 
-            if (motoristas != null && !motoristas.isEmpty()) {
-                Motorista motorista = motoristas.get(0);
+            int idUsuario = getIntent().getIntExtra("idUsuario", -1);
+            Motorista motoristaSelecionado = null;
 
+            for (Motorista m : motoristas) {
+                if (m.getId() == idUsuario) {
+                    motoristaSelecionado = m;
+                    break;
+                }
+            }
+
+            if (motoristaSelecionado != null) {
+                Motorista finalMotorista = motoristaSelecionado;
                 runOnUiThread(() -> {
-                    editChave1.setHint(motorista.getFrase1()); // Preenche a chave 1
-                    editChave2.setHint(motorista.getFrase2()); // Preenche a chave 2
-                    editChave3.setHint(motorista.getFrase3()); // Preenche a chave 3
-
+                    editChave1.setHint(finalMotorista.getFrase1());
+                    editChave2.setHint(finalMotorista.getFrase2());
+                    editChave3.setHint(finalMotorista.getFrase3());
                     Toast.makeText(ConfigActivity.this, "Dados carregados!", Toast.LENGTH_SHORT).show();
                 });
             } else {
-                runOnUiThread(() -> {
-                    Toast.makeText(ConfigActivity.this, "Nenhum motorista encontrado.", Toast.LENGTH_LONG).show();
-                });
+                runOnUiThread(() -> Toast.makeText(ConfigActivity.this, "Motorista não encontrado.", Toast.LENGTH_LONG).show());
             }
         }).start();
     }
+
 }

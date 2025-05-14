@@ -2,6 +2,8 @@ package com.umonitoring.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,7 @@ public class ListaViagemActivity extends AppCompatActivity {
     private RecyclerView HistoricoDeViagens;
     private ViagemAdapter adapter;
     private List<Viagem> listaViagens;
+    private View botaoVoltar;
 
 
     @Override
@@ -41,6 +44,8 @@ public class ListaViagemActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
 
         HistoricoDeViagens = findViewById(R.id.HistoricoDeViagens);
         HistoricoDeViagens.setLayoutManager(new LinearLayoutManager(this));
@@ -65,5 +70,8 @@ public class ListaViagemActivity extends AppCompatActivity {
             }
         });
         BottomNavHelper.setupBottomNavigation(this, R.id.nav_home);
+
+        botaoVoltar = findViewById(R.id.botaoVoltar);
+        botaoVoltar.setOnClickListener(v -> finish());
     }
 }

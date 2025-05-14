@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.umonitoring.R;
 import com.umonitoring.activities.ListaViagemActivity;
-import com.umonitoring.activities.ProfilePage;
+import com.umonitoring.activities.InfoPage;
 import com.umonitoring.activities.TelaDeViagemActivity;
 
 public class BottomNavHelper {
@@ -15,21 +15,23 @@ public class BottomNavHelper {
         BottomNavigationView bottomNavigationView = activity.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(selectedItemId);
 
+        // Recupera o ID do usuário da intent atual da Activity
+        int idUsuario = activity.getIntent().getIntExtra("idUsuario", -1);
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
+            Intent intent = null;
 
-            if (itemId == R.id.nav_home && selectedItemId != R.id.nav_home) {
-                Intent intent = new Intent(activity, TelaDeViagemActivity.class);
-                activity.startActivity(intent);
-                activity.overridePendingTransition(0, 0);
-                return true;
-            } else if (itemId == R.id.nav_info && selectedItemId != R.id.nav_info) {
-                Intent intent = new Intent(activity, ListaViagemActivity.class);
-                activity.startActivity(intent);
-                activity.overridePendingTransition(0, 0);
-                return true;
-            } else if (itemId == R.id.nav_config && selectedItemId != R.id.nav_config) {
-                Intent intent = new Intent(activity, ProfilePage.class);
+            if (itemId == R.id.nav_home) {
+                intent = new Intent(activity, TelaDeViagemActivity.class);
+            } else if (itemId == R.id.nav_info) {
+                intent = new Intent(activity, ListaViagemActivity.class);
+            } else if (itemId == R.id.nav_config) {
+                intent = new Intent(activity, InfoPage.class);
+            }
+
+            if (intent != null) {
+                intent.putExtra("idUsuario", idUsuario); // ← Mantém o ID do usuário
                 activity.startActivity(intent);
                 activity.overridePendingTransition(0, 0);
                 return true;
