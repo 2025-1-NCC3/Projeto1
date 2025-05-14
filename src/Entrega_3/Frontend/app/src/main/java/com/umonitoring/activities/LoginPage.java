@@ -12,6 +12,7 @@ import com.google.android.material.button.MaterialButton;
 import com.umonitoring.R;
 import com.umonitoring.api.ServidorConfig;
 import com.umonitoring.utils.Criptografia;
+import com.umonitoring.utils.Sessao;
 
 import org.json.JSONObject;
 
@@ -113,6 +114,7 @@ public class LoginPage extends AppCompatActivity {
                             Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(this, TelaDeViagemActivity.class);
                             intent.putExtra("idUsuario", idUsuario);
+                            Sessao.setIdUsuario(idUsuario);
                             startActivity(intent);
                         });
 

@@ -17,6 +17,7 @@ import java.util.List;
 import com.umonitoring.models.Motorista;
 import com.umonitoring.R;
 import com.umonitoring.components.BottomNavHelper;
+import com.umonitoring.utils.Sessao;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -41,7 +42,7 @@ public class ProfilePage extends AppCompatActivity {
 
         BottomNavHelper.setupBottomNavigation(this, R.id.nav_home);
 
-        idUsuario = getIntent().getIntExtra("idUsuario", -1); // ← pegando ID do usuário
+        idUsuario = Sessao.getIdUsuario();
 
         new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(this::carregarDadosUsuario, 500);
 

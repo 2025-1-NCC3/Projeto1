@@ -18,6 +18,7 @@ import java.util.List;
 import com.umonitoring.models.Motorista;
 import com.umonitoring.R;
 import com.umonitoring.components.BottomNavHelper;
+import com.umonitoring.utils.Sessao;
 
 public class ConfigActivity extends AppCompatActivity {
 
@@ -143,8 +144,7 @@ public class ConfigActivity extends AppCompatActivity {
                 Motorista debugMotorista = new Motorista(0, "", "", "", "", "", "", "", "", "", "", "", "");
                 List<Motorista> motoristas = debugMotorista.listarMotoristas();
 
-                int idUsuario = getIntent().getIntExtra("idUsuario", -1);
-
+                int idUsuario = Sessao.getIdUsuario();
                 if (motoristas != null && !motoristas.isEmpty()) {
                     final Motorista motorista = motoristas.get(idUsuario);
 
@@ -188,7 +188,7 @@ public class ConfigActivity extends AppCompatActivity {
             Motorista debugMotorista = new Motorista(0, "", "", "", "", "", "", "", "", "", "", "", "");
             List<Motorista> motoristas = debugMotorista.listarMotoristas();
 
-            int idUsuario = getIntent().getIntExtra("idUsuario", -1);
+            int idUsuario = Sessao.getIdUsuario();
             Motorista motoristaSelecionado = null;
 
             for (Motorista m : motoristas) {
