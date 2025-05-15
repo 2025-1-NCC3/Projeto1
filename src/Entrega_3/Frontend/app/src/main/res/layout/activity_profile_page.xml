@@ -11,8 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:background="#2b2b2b"
-        android:gravity="center_vertical">
+        android:background="@color/background"
+        android:gravity="center_vertical"
+        android:layout_marginTop="25dp">
 
         <ImageView
             android:id="@+id/botaoVoltar"

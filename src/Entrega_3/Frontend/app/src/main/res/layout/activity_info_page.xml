@@ -31,7 +31,8 @@
             android:layout_marginStart="16dp"
             android:text="Informações"
             android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="25sp" />
 
         <!-- imagem -->
         <ImageView
