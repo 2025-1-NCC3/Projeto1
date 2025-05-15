@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="#2b2b2b"
+    android:background="@color/background"
     app:menu="@menu/menu_bottom"
     app:itemIconTint="@color/white"
     app:itemTextColor="@color/white" />

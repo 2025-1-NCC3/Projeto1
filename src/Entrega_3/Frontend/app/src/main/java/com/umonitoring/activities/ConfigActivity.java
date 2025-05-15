@@ -41,10 +41,6 @@ public class ConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        // Botão voltar
-        botaoVoltar = findViewById(R.id.botaoVoltar);
-        botaoVoltar.setOnClickListener(v -> finish());
-
         // Inicialização dos componentes
         switchSeguranca = findViewById(R.id.switchSeguranca);
         tituloConfig = findViewById(R.id.tituloConfig);
@@ -64,6 +60,9 @@ public class ConfigActivity extends AppCompatActivity {
         setaChave1 = findViewById(R.id.setaChave1);
         setaChave2 = findViewById(R.id.setaChave2);
         setaChave3 = findViewById(R.id.setaChave3);
+
+        botaoVoltar = findViewById(R.id.botaoVoltar);
+        botaoVoltar.setOnClickListener(v -> finish());
 
         // Switch
         switchSeguranca.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -108,21 +107,19 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
-        // Clique Chave 1
+        // Expansão de campos
         chave1Layout.setOnClickListener(v -> {
             expanded1 = !expanded1;
             editChave1.setVisibility(expanded1 ? View.VISIBLE : View.GONE);
             setaChave1.animate().rotation(expanded1 ? 90 : 0).setDuration(200).start();
         });
 
-        // Clique Chave 2
         chave2Layout.setOnClickListener(v -> {
             expanded2 = !expanded2;
             editChave2.setVisibility(expanded2 ? View.VISIBLE : View.GONE);
             setaChave2.animate().rotation(expanded2 ? 90 : 0).setDuration(200).start();
         });
 
-        // Clique Chave 3
         chave3Layout.setOnClickListener(v -> {
             expanded3 = !expanded3;
             editChave3.setVisibility(expanded3 ? View.VISIBLE : View.GONE);
@@ -145,33 +142,39 @@ public class ConfigActivity extends AppCompatActivity {
                 List<Motorista> motoristas = debugMotorista.listarMotoristas();
 
                 int idUsuario = Sessao.getIdUsuario();
-                if (motoristas != null && !motoristas.isEmpty()) {
-                    final Motorista motorista = motoristas.get(idUsuario);
+                if (idUsuario == -1) {
+                    runOnUiThread(() -> Toast.makeText(this, "ID de usuário inválido.", Toast.LENGTH_LONG).show());
+                    return;
+                }
 
-                    // Atualiza apenas os campos preenchidos
-                    if (!frase1.isEmpty()) motorista.setFrase1(frase1);
-                    if (!frase2.isEmpty()) motorista.setFrase2(frase2);
-                    if (!frase3.isEmpty()) motorista.setFrase3(frase3);
+                Motorista motoristaSelecionado = null;
+                for (Motorista m : motoristas) {
+                    if (m.getId() == idUsuario) {
+                        motoristaSelecionado = m;
+                        break;
+                    }
+                }
 
-                    String resposta = motorista.atualizar(motorista.getId());
+                if (motoristaSelecionado != null) {
+                    if (!frase1.isEmpty()) motoristaSelecionado.setFrase1(frase1);
+                    if (!frase2.isEmpty()) motoristaSelecionado.setFrase2(frase2);
+                    if (!frase3.isEmpty()) motoristaSelecionado.setFrase3(frase3);
+
+                    String resposta = motoristaSelecionado.atualizar(motoristaSelecionado.getId());
 
                     runOnUiThread(() -> {
                         Toast.makeText(ConfigActivity.this, resposta, Toast.LENGTH_LONG).show();
 
-                        // Atualiza os hints se o campo foi preenchido
                         if (!frase1.isEmpty()) editChave1.setHint(frase1);
                         if (!frase2.isEmpty()) editChave2.setHint(frase2);
                         if (!frase3.isEmpty()) editChave3.setHint(frase3);
 
-                        // Limpa os campos após atualização
                         editChave1.setText("");
                         editChave2.setText("");
                         editChave3.setText("");
                     });
                 } else {
-                    runOnUiThread(() -> {
-                        Toast.makeText(ConfigActivity.this, "Motorista não encontrado.", Toast.LENGTH_LONG).show();
-                    });
+                    runOnUiThread(() -> Toast.makeText(ConfigActivity.this, "Motorista não encontrado.", Toast.LENGTH_LONG).show());
                 }
             }).start();
         });
@@ -179,8 +182,8 @@ public class ConfigActivity extends AppCompatActivity {
         // Menu inferior
         BottomNavHelper.setupBottomNavigation(this, R.id.nav_config);
 
+        // Só chama carregarDadosUsuario após findViewById
         carregarDadosUsuario();
-
     }
 
     private void carregarDadosUsuario() {
@@ -189,8 +192,13 @@ public class ConfigActivity extends AppCompatActivity {
             List<Motorista> motoristas = debugMotorista.listarMotoristas();
 
             int idUsuario = Sessao.getIdUsuario();
-            Motorista motoristaSelecionado = null;
 
+            if (idUsuario == -1) {
+                runOnUiThread(() -> Toast.makeText(this, "ID de usuário inválido.", Toast.LENGTH_LONG).show());
+                return;
+            }
+
+            Motorista motoristaSelecionado = null;
             for (Motorista m : motoristas) {
                 if (m.getId() == idUsuario) {
                     motoristaSelecionado = m;
@@ -211,5 +219,4 @@ public class ConfigActivity extends AppCompatActivity {
             }
         }).start();
     }
-
 }

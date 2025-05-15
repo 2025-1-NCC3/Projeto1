@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.List;
 
 import com.umonitoring.models.Motorista;
@@ -122,38 +121,36 @@ public class ProfilePage extends AppCompatActivity {
             Motorista debugMotorista = new Motorista(0, "", "", "", "", "", "", "", "", "", "", "", "");
             List<Motorista> motoristas = debugMotorista.listarMotoristas();
 
-            if (motoristas != null && !motoristas.isEmpty()) {
-                Motorista motoristaSelecionado = null;
-                for (Motorista m : motoristas) {
-                    if (m.getId() == idUsuario) {
-                        motoristaSelecionado = m;
-                        break;
-                    }
+            Motorista motoristaEncontrado = null;
+
+            for (Motorista m : motoristas) {
+                if (m.getId() == idUsuario) {
+                    motoristaEncontrado = m;
+                    break;
                 }
+            }
 
-                if (motoristaSelecionado != null) {
-                    Motorista finalMotorista = motoristaSelecionado;
-                    runOnUiThread(() -> {
-                        editNome1.setHint(finalMotorista.getNome());
-                        editNome2.setHint(finalMotorista.getSobrenome());
-                        editTelefone.setHint(finalMotorista.getTelefone());
-                        editEmail.setHint(finalMotorista.getEmail());
+            if (motoristaEncontrado != null) {
+                Motorista finalMotorista = motoristaEncontrado;
+                runOnUiThread(() -> {
+                    editNome1.setHint(finalMotorista.getNome());
+                    editNome2.setHint(finalMotorista.getSobrenome());
+                    editTelefone.setHint(finalMotorista.getTelefone());
+                    editEmail.setHint(finalMotorista.getEmail());
 
-                        nomeOriginal = finalMotorista.getNome();
-                        sobrenomeOriginal = finalMotorista.getSobrenome();
-                        telefoneOriginal = finalMotorista.getTelefone();
-                        emailOriginal = finalMotorista.getEmail();
+                    nomeOriginal = finalMotorista.getNome();
+                    sobrenomeOriginal = finalMotorista.getSobrenome();
+                    telefoneOriginal = finalMotorista.getTelefone();
+                    emailOriginal = finalMotorista.getEmail();
 
-                        Toast.makeText(ProfilePage.this, "Dados carregados!", Toast.LENGTH_SHORT).show();
-                    });
-                } else {
-                    runOnUiThread(() -> Toast.makeText(ProfilePage.this, "Motorista não encontrado.", Toast.LENGTH_LONG).show());
-                }
+                    Toast.makeText(ProfilePage.this, "Dados carregados!", Toast.LENGTH_SHORT).show();
+                });
             } else {
-                runOnUiThread(() -> Toast.makeText(ProfilePage.this, "Nenhum motorista encontrado.", Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> Toast.makeText(ProfilePage.this, "Motorista não encontrado.", Toast.LENGTH_LONG).show());
             }
         }).start();
     }
+
 
     private void atualizarDados() {
         String nome = editNome1.getText().toString().trim();

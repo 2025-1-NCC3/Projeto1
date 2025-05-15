@@ -15,9 +15,6 @@ public class BottomNavHelper {
         BottomNavigationView bottomNavigationView = activity.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(selectedItemId);
 
-        // Recupera o ID do usuário da intent atual da Activity
-        int idUsuario = activity.getIntent().getIntExtra("idUsuario", -1);
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             Intent intent = null;
@@ -31,7 +28,6 @@ public class BottomNavHelper {
             }
 
             if (intent != null) {
-                intent.putExtra("idUsuario", idUsuario); // ← Mantém o ID do usuário
                 activity.startActivity(intent);
                 activity.overridePendingTransition(0, 0);
                 return true;
