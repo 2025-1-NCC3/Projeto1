@@ -15,6 +15,18 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/existe", (req, res) => {
+  const email = req.query.email;
+  if (!email) return res.status(400).json({ error: "Email é obrigatório!" });
+
+  db.get(`SELECT * FROM Motorista WHERE email = ?`, [email], (err, row) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!row) return res.status(404).json({ existe: false });
+    return res.json({ existe: true });
+  });
+});
+
+
 // Busca motorista por ID
 router.get("/:id", (req, res) => {
   db.get(

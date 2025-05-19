@@ -70,8 +70,8 @@ router.post("/", (req, res) => {
     !data_hora_de_partida ||
     !data_hora_de_chegada ||
     !status ||
-    !motorista_id ||
-    !passageiro_id
+    motorista_id == null ||
+    passageiro_id == null
   ) {
     return res.status(400).json({ error: "Todos os campos são obrigatórios!" });
   }
@@ -99,7 +99,7 @@ router.post("/", (req, res) => {
   });
 });
 
-// Atualiza uma Viagem
+// Atualiza uma Viagem (com validação)
 router.put("/:id", (req, res) => {
   const {
     endereco_de_partida,
@@ -110,6 +110,18 @@ router.put("/:id", (req, res) => {
     motorista_id,
     passageiro_id,
   } = req.body;
+
+  if (
+    !endereco_de_partida ||
+    !endereco_de_chegada ||
+    !data_hora_de_partida ||
+    !data_hora_de_chegada ||
+    !status ||
+    motorista_id == null ||
+    passageiro_id == null
+  ) {
+    return res.status(400).json({ error: "Todos os campos são obrigatórios!" });
+  }
 
   const sql = `
     UPDATE Viagem SET endereco_de_partida=?, endereco_de_chegada=?, data_hora_de_partida=?, data_hora_de_chegada=?, status=?, motorista_id=?, passageiro_id=?
