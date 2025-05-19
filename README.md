@@ -15,7 +15,7 @@
 ## Descrição
 
 <p align="center">
-<img src="https://github.com/2025-1-NCC3/Projeto1/blob/main/imagens/banner.png?raw=true" alt="NOME DO JOGO" border="0">
+<img src="https://github.com/2025-1-NCC3/Projeto1/blob/main/imagens/banner.png?raw=true" alt="" border="0">
   app by <a href="">CDRR</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 4.0</a> 
 </p>
 
@@ -40,17 +40,71 @@ Essa abordagem busca oferecer uma camada adicional de proteção sem interferir 
 -Raiz<br>
 |<br>
 |-->documentos<br>
-  &emsp;|-->antigos<br>
-  &emsp;|Documentação.docx<br>
+&emsp;|-->Entrega 1<br>
+&emsp;&emsp;|-->Análise Descritiva de Dados<br>
+&emsp;&emsp;|-->Programação Orientada a Objetivos e Estrutura de Dados<br>
+&emsp;&emsp;|-->Programação para Dispositivos Móveis<br>
+&emsp;&emsp;|-->Projeto Interdisciplinar Aplicativo Móvel<br>
+&emsp;|-->Entrega 2<br>
+&emsp;&emsp;|-->Análise Descritiva de Dados<br>
+&emsp;&emsp;|-->Programação Orientada a Objetivos e Estrutura de Dados<br>
+&emsp;&emsp;|-->Programação para Dispositivos Móveis<br>
+&emsp;&emsp;|-->Projeto Interdisciplinar Aplicativo Móvel<br>
+&emsp;|-->Entrega 3<br>
+&emsp;&emsp;|-->Análise Descritiva de Dados<br>
+&emsp;&emsp;|-->Programação Orientada a Objetivos e Estrutura de Dados<br>
+&emsp;&emsp;|-->Programação para Dispositivos Móveis<br>
+&emsp;&emsp;|-->Projeto Interdisciplinar Aplicativo Móvel<br>
 |-->executáveis<br>
-  &emsp;|-->windows<br>
-  &emsp;|-->android<br>
-  &emsp;|-->HTML<br>
+&emsp;|-->android<br>
+&emsp;|-->windows<br>
+&emsp;|-->HTML<br>
 |-->imagens<br>
+&emsp;|-->ic_launcher<br>
+&emsp;&emsp;|-->res<br>
+&emsp;&emsp;&emsp;|-->mipmap-anydpi-v26<br>
+&emsp;&emsp;&emsp;|-->mipmap-hdpi<br>
+&emsp;&emsp;&emsp;|-->mipmap-mdpi<br>
+&emsp;&emsp;&emsp;|-->mipmap-xhdpi<br>
+&emsp;&emsp;&emsp;|-->mipmap-xxhdpi<br>
+&emsp;&emsp;&emsp;|-->mipmap-xxxhdpi<br>
 |-->src<br>
-  &emsp;|-->Backend<br>
-  &emsp;|-->Frontend<br>
-|readme.md<br>
+&emsp;|-->Entrega 1<br>
+&emsp;&emsp;|-->Backend<br>
+&emsp;|-->Entrega_2<br>
+&emsp;&emsp;|-->Backend<br>
+&emsp;&emsp;&emsp;|-->Arquivos Servidor<br>
+&emsp;&emsp;&emsp;|-->app_simulado<br>
+&emsp;&emsp;&emsp;&emsp;|-->.idea<br>
+&emsp;&emsp;&emsp;&emsp;|-->app<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;|-->src<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->androidTest<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->java/com/umonitoring<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->main<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->java/com/umonitoring/<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->activities, api, models, utils<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->res<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->drawable, layout, mipmap-*, values, xml<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->test/java/com/umonitoring<br>
+&emsp;&emsp;&emsp;|-->Frontend<br>
+&emsp;&emsp;&emsp;&emsp;|-->.idea<br>
+&emsp;&emsp;&emsp;&emsp;|-->app/src<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;|-->androidTest/java/br/com/fecapccp/umonitoring<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;|-->main/java/br/com/fecapccp/umonitoring<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;|-->res/<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-->drawable, layout, mipmap-*, values, xml<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;|-->test/java/br/com/fecapccp/umonitoring<br>
+&emsp;|-->Entrega_3<br>
+&emsp;&emsp;|-->Backend/routes<br>
+&emsp;&emsp;|-->Frontend/app/src<br>
+&emsp;&emsp;&emsp;|-->androidTest/java/com/umonitoring<br>
+&emsp;&emsp;&emsp;|-->main/java/com/umonitoring/<br>
+&emsp;&emsp;&emsp;&emsp;|-->activities, api, components, controllers, models, services, utils<br>
+&emsp;&emsp;&emsp;|-->res/<br>
+&emsp;&emsp;&emsp;&emsp;|-->color, drawable, layout, menu, mipmap-*, values, xml<br>
+&emsp;&emsp;&emsp;|-->test/java/com/umonitoring<br>
+|-->README.md<br>
+
 
 ## 🛠 Instalação
 
@@ -59,23 +113,13 @@ Essa abordagem busca oferecer uma camada adicional de proteção sem interferir 
 Faça o Download do APP.apk no seu celular.
 Execute o APK e siga as instruções de seu telefone.
 
-```sh
-Coloque código do prompt de comnando se for necessário
-```
+📱 <a href="https://github.com/2025-1-NCC3/Projeto1/raw/main/app-debug.apk">Clique aqui para baixar o APK do U-Monitoring</a>
 
 ## 💻 Configuração para Desenvolvimento
-
-Descreva como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, faça isso para múltiplas plataformas.
 
 Para abrir este projeto você necessita das seguintes ferramentas:
 
 -<a href="">Android Studio</a>
-
-```sh
-make install
-npm test
-Coloque código do prompt de comnando se for necessário
-```
 
 ## 📋 Licença/License
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/2025-1-NCC3/Projeto1">U-Monitoring</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/2025-1-NCC3/Projeto1">FECAP, Caroliny Rossi Bittencourt, Duda Lucena Miguel, Rafael Alves dos Santos Guimarães, Rafael Moraes Marques</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
@@ -84,9 +128,4 @@ Coloque código do prompt de comnando se for necessário
 
 Aqui estão as referências usadas no projeto.
 
-1. <https://github.com/iuricode/readme-template>
-2. <https://github.com/gabrieldejesus/readme-model>
-3. <https://chooser-beta.creativecommons.org/>
-4. <https://freesound.org/>
-5. <https://www.toptal.com/developers/gitignore>
-6. Músicas por: <a href="https://freesound.org/people/DaveJf/sounds/616544/"> DaveJf </a> e <a href="https://freesound.org/people/DRFX/sounds/338986/"> DRFX </a> ambas com Licença CC 0.
+1. Assistência técnica e estrutural com [ChatGPT (OpenAI)](https://openai.com/chatgpt) – auxílio na formatação do README, estruturação de pastas, integração com backend e frontend, correção de código Java, testes com SQLite, Node.js, e suporte contínuo durante todo o projeto interdisciplinar.
